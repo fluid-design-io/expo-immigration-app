@@ -2,7 +2,58 @@
 @import "uniwind";
 
 @import "heroui-native/styles";
+@import "heroui-native-pro/styles";
 
 /* End-user path: heroui-native lives in the project's node_modules, one
    level up from this src/global.css file. */
 @source '../node_modules/heroui-native/lib';
+@source '../node_modules/heroui-native-pro/lib';
+
+@theme {
+  --field-radius: 0.5rem;
+  --field-border-width: 0.642122456084777px;
+  --font-bold: Fredoka-Bold;
+  --font-medium: Fredoka-Medium;
+  --font-normal: Fredoka-Regular;
+  --font-semibold: Fredoka-SemiBold;
+}
+
+@layer theme {
+  @variant light {
+    /* Theme Colors */
+    --background: oklch(97.02% 0.0027 181.37);
+    --muted: oklch(55.17% 0.0053 181.37);
+    --surface-secondary: oklch(95.24% 0.004 181.37);
+    --surface-tertiary: oklch(93.73% 0.004 181.37);
+    --default: oklch(94% 0.0027 181.37);
+    --accent: oklch(71.73% 0.1096 181.37);
+    --accent-foreground: var(--eclipse);
+    --success: oklch(64.52% 0.1776 141.57);
+    --warning: oklch(68.73% 0.1419 74.72);
+    --danger: oklch(62.39% 0.1883 17.66);
+    --border: oklch(90% 0.0027 181.37);
+    --separator: oklch(92% 0.0027 181.37);
+  }
+
+  @variant dark {
+    /* Theme Colors */
+    --background: oklch(12% 0.0027 181.37);
+    --muted: oklch(70.5% 0.0053 181.37);
+    --surface: oklch(21.03% 0.0053 181.37);
+    --surface-secondary: oklch(25.7% 0.004 181.37);
+    --surface-secondary-foreground: oklch(25.7% 0 181.37);
+    --surface-tertiary: oklch(27.21% 0.004 181.37);
+    --surface-tertiary-foreground: oklch(27.21% 0 181.37);
+    --overlay: oklch(21.03% 0.0053 181.37);
+    --default: oklch(27.4% 0.0027 181.37);
+    --accent: oklch(71.73% 0.1096 181.37);
+    --accent-foreground: var(--eclipse);
+    --success: oklch(64.52% 0.1776 141.57);
+    --warning: oklch(68.73% 0.1419 74.72);
+    --danger: oklch(62.39% 0.1883 17.66);
+    --field-background: oklch(21.03% 0.0053 181.37);
+    --segment: oklch(39.64% 0.0027 181.37);
+    --border: oklch(28% 0.0027 181.37);
+    --separator: oklch(25% 0.0027 181.37);
+  }
+}

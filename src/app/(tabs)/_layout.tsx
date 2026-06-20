@@ -1,31 +1,17 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
-import type { ComponentProps, JSX } from "react";
-import type { ColorValue } from "react-native";
-
-type IoniconName = ComponentProps<typeof Ionicons>["name"];
-
-function TabIcon({ name, color }: { name: IoniconName; color: ColorValue }): JSX.Element {
-  return <Ionicons name={name} size={24} color={color} />;
-}
+import { NativeTabs } from "expo-router/unstable-native-tabs";
+import type { JSX } from "react";
 
 export default function TabsLayout(): JSX.Element {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => <TabIcon name="home-outline" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color }) => <TabIcon name="compass-outline" color={color} />,
-        }}
-      />
-    </Tabs>
+    <NativeTabs>
+      <NativeTabs.Trigger name="index">
+        <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
+        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="explore">
+        <NativeTabs.Trigger.Icon sf="safari.fill" md="explore" />
+        <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 }
