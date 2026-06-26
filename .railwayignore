@@ -1,0 +1,10 @@
+# Keep the Railway upload to source only — deps install in the build.
+node_modules
+.git
+.expo
+dist
+build
+ios
+android
+*.log
+.DS_Store
