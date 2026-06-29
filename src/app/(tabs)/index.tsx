@@ -1,7 +1,9 @@
 import { Button, Card, Typography, useThemeColor } from "heroui-native";
 import type { JSX } from "react";
-import { View } from "react-native";
+import { useState } from "react";
+import { Alert, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import { authClient } from "@/lib/auth-client";
 
 function HeroUILogo({ tintColor }: { tintColor: string }): JSX.Element {
   return (
@@ -32,6 +34,20 @@ function HeroUILogo({ tintColor }: { tintColor: string }): JSX.Element {
 
 export default function HomeTab(): JSX.Element {
   const themeColorForeground = useThemeColor("foreground");
+  const { data: session } = authClient.useSession();
+  const [signingOut, setSigningOut] = useState(false);
+
+  async function handleSignOut(): Promise<void> {
+    setSigningOut(true);
+    try {
+      await authClient.signOut();
+      // The root layout's protected route redirects to the auth screen once the
+      // Convex auth state clears — no manual navigation needed.
+    } catch (err) {
+      Alert.alert("Sign out failed", err instanceof Error ? err.message : "Please try again.");
+      setSigningOut(false);
+    }
+  }
 
   return (
     <View className="flex-1 bg-background justify-center px-6">
@@ -45,7 +61,24 @@ export default function HomeTab(): JSX.Element {
           </Typography.Paragraph>{" "}
           and watch it reload.
         </Typography.Paragraph>
-        <Button className="w-full">Get started</Button>
+        {session?.user ? (
+          <Typography.Paragraph color="muted" className="text-center text-sm">
+            Signed in as {session.user.email}
+          </Typography.Paragraph>
+        ) : null}
+        <View className="w-full gap-3">
+          <Button className="w-full">
+            <Button.Label>Get started</Button.Label>
+          </Button>
+          <Button
+            variant="danger-soft"
+            className="w-full"
+            isDisabled={signingOut}
+            onPress={handleSignOut}
+          >
+            <Button.Label>{signingOut ? "Signing out…" : "Sign out"}</Button.Label>
+          </Button>
+        </View>
       </Card>
     </View>
   );
