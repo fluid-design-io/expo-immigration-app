@@ -1,6 +1,6 @@
 import { Link } from 'expo-router'
 import { ListGroup } from 'heroui-native'
-import type { Applicant, Relationship } from './applicants.data'
+import type { Applicant, Relationship } from './data'
 
 const RELATIONSHIP_LABEL: Record<Relationship, string> = {
 	self: 'You',

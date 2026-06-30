@@ -1,8 +1,8 @@
 import type { Id } from '@/lib/api'
 import { Spinner, Typography } from 'heroui-native'
 import { View } from 'react-native'
-import { ApplicantProfileForm } from './applicant-profile-form'
-import { useApplicant } from './applicants.data'
+import { ApplicantProfileForm } from './profile-form'
+import { useApplicant } from './data'
 
 /**
  * Detail screen for one applicant: edit their reusable profile. The form owns
