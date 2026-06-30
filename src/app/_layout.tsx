@@ -33,8 +33,6 @@ const AppContent = (): JSX.Element => {
 
 	return (
 		<Stack screenOptions={layoutStyle}>
-			{/* Expo Router swaps the active group whenever `isAuthenticated` changes
-			    and clears the now-guarded routes from history. */}
 			<Stack.Protected guard={isAuthenticated}>
 				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 			</Stack.Protected>

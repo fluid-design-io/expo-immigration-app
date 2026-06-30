@@ -1,5 +1,4 @@
 import { authClient } from '@/lib/auth-client'
-import { Link } from 'expo-router'
 import { Button, Input, Label, Separator, TextField, Typography } from 'heroui-native'
 import { SocialAuthButton, type SocialAuthButtonProvider } from 'heroui-native-pro'
 import type { JSX } from 'react'
@@ -75,7 +74,6 @@ export default function AuthScreen(): JSX.Element {
 				contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24, gap: 28 }}
 				keyboardShouldPersistTaps="handled"
 			>
-				<Link href="/test">Test Page</Link>
 				<View className="gap-2">
 					<Typography.Heading className="text-3xl font-bold">
 						{isSignUp ? 'Create your account' : 'Welcome back'}

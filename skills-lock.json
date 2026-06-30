@@ -48,6 +48,12 @@
       "sourceType": "github",
       "skillPath": "plugins/expo/skills/expo-api-routes/SKILL.md",
       "computedHash": "719b5a8e07c1055760e21c22d8c42c1d79f084d946450f2b72d6db5598f73002"
+    },
+    "react-composition-structure": {
+      "source": "fluid-design-io/react-composition-structure",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "041edacd718d6748efd89c54fbb10f21e3a8278d48102d3477d2897abd397e46"
     }
   }
 }

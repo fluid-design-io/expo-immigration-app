@@ -1,6 +1,6 @@
 import { StyledLucideIcon } from '@/components/styled-icon'
 import { useMutation, useQuery } from 'convex/react'
-import { Button, ListGroup, Separator, Spinner } from 'heroui-native'
+import { Button, Checkbox, ListGroup, Separator, Spinner } from 'heroui-native'
 import { EmptyState } from 'heroui-native-pro'
 import { Fragment } from 'react'
 import { Alert, View } from 'react-native'
@@ -26,9 +26,9 @@ export default function Test() {
 			<View className="flex-1 pt-safe-offset-16 px-5 gap-5 pb-safe-offset-5 justify-between">
 				<EmptyState>
 					<EmptyState.Header>
-						{/* <EmptyState.Media variant="icon">
-            <BellIcon size={20} colorClassName="accent-default-foreground" />
-          </EmptyState.Media> */}
+						<EmptyState.Media variant="icon">
+							<StyledLucideIcon name="check-circle" size={20} className="text-accent" />
+						</EmptyState.Media>
 						<EmptyState.Title>No todos yet</EmptyState.Title>
 						<EmptyState.Description>Create a todo to get started.</EmptyState.Description>
 					</EmptyState.Header>
@@ -46,20 +46,9 @@ export default function Test() {
 			<ListGroup>
 				{todos.map((todo, index) => (
 					<Fragment key={todo._id}>
-						<ListGroup.Item key={todo._id}>
+						<ListGroup.Item key={todo._id} onPress={() => toggleTodo({ id: todo._id })}>
 							<ListGroup.ItemPrefix>
-								<Button
-									size="sm"
-									variant="secondary"
-									onPress={() => toggleTodo({ id: todo._id })}
-									isIconOnly
-								>
-									<StyledLucideIcon
-										className="text-accent"
-										name={todo.completed ? 'check-circle' : 'circle'}
-										size={28}
-									/>
-								</Button>
+								<Checkbox isSelected={todo.completed} isDisabled />
 							</ListGroup.ItemPrefix>
 							<ListGroup.ItemContent>
 								<ListGroup.ItemTitle>{todo.title}</ListGroup.ItemTitle>
@@ -72,7 +61,7 @@ export default function Test() {
 									variant="danger-soft"
 									isIconOnly
 								>
-									<StyledLucideIcon name="trash" size={18} className="text-danger-foreground" />
+									<StyledLucideIcon name="trash" size={18} className="text-danger" />
 								</Button>
 							</ListGroup.ItemSuffix>
 						</ListGroup.Item>
