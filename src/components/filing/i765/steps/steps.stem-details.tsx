@@ -2,7 +2,7 @@ import { router } from 'expo-router'
 import { View } from 'react-native'
 import { InterviewStep } from '../../filing.interview-step'
 import { useI765Form } from '../i765.context'
-import { DEGREE_LEVEL_OPTIONS, stemDetailsSectionSchema } from '../i765.wizard-form'
+import { DEGREE_LEVEL_OPTIONS, isStemCategory, stemDetailsSectionSchema } from '../i765.wizard-form'
 import { goToNextStep } from './steps.nav'
 
 /**
@@ -21,7 +21,14 @@ export function StemDetailsStep() {
 		>
 			{(group) => (
 				<form.Subscribe
-					selector={(s) => stemDetailsSectionSchema.safeParse(s.values.stemDetails).success}
+					selector={(s) =>
+						// Once the category is no longer (c)(3)(C) this step is skipped
+						// (getVisibleSteps/nextVisibleStepId agree), so if it's reached via
+						// stack history Continue must not stay gated on STEM validity — let it
+						// advance to the next visible step instead of trapping the user.
+						!isStemCategory(s.values.eligibility.eligibilityCategory) ||
+						stemDetailsSectionSchema.safeParse(s.values.stemDetails).success
+					}
 				>
 					{(canAdvance) => (
 						<InterviewStep
