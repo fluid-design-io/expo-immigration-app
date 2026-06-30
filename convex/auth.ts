@@ -2,6 +2,7 @@ import { expo } from '@better-auth/expo'
 import { createClient, type GenericCtx } from '@convex-dev/better-auth'
 import { convex } from '@convex-dev/better-auth/plugins'
 import { betterAuth, type BetterAuthOptions } from 'better-auth/minimal'
+import { anonymous } from 'better-auth/plugins'
 import { components } from './_generated/api'
 import { DataModel } from './_generated/dataModel'
 import { query } from './_generated/server'
@@ -36,14 +37,33 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
 
 	return betterAuth({
 		// Must match the app scheme in app.json (used for deep-link auth callbacks).
-		trustedOrigins: ['expo-immigration-app://'],
+		trustedOrigins: ['immigrationrenewalhelp://'],
 		database: authComponent.adapter(ctx),
 		emailAndPassword: {
 			enabled: true,
 			requireEmailVerification: false,
 		},
 		socialProviders,
-		plugins: [expo(), convex({ authConfig })],
+		plugins: [
+			expo(),
+			// Anonymous-first onboarding (ADR-0009): the Welcome screen's "Start
+			// filing" action calls `authClient.signIn.anonymous()`, creating a
+			// throwaway anonymous identity so a person can invest effort before
+			// hitting any signup wall. The `@convex-dev/better-auth` component
+			// schema already carries the `isAnonymous` user field, so the plugin
+			// works against this deployment without a schema change.
+			anonymous({
+				// Stub for this slice. The full anonymous → credentialed data
+				// backfill (copying the anonymous user's profile/filings onto the
+				// upgraded account) lands in slice #6 — see ADR-0009 "anonymous →
+				// credentialed account-linking flow". Until then linking simply
+				// drops the anonymous record; nothing to migrate yet.
+				onLinkAccount: async () => {
+					// no-op (see slice #6 / ADR-0009)
+				},
+			}),
+			convex({ authConfig }),
+		],
 	})
 }
 

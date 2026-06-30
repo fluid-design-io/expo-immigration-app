@@ -43,7 +43,15 @@ const AppContent = (): JSX.Element => {
 				/>
 			</Stack.Protected>
 			<Stack.Protected guard={!isAuthenticated}>
-				<Stack.Screen name="auth" options={{ headerShown: false }} />
+				{/*
+				 * Anonymous-first onboarding (ADR-0009). `welcome` is the initial
+				 * unauthenticated screen ("Start filing" creates an anonymous
+				 * session); `sign-in` is pushed from it for returning users. An
+				 * anonymous session makes `useConvexAuth().isAuthenticated` true, so
+				 * the authenticated group (tabs) takes over with no manual nav.
+				 */}
+				<Stack.Screen name="welcome" options={{ headerShown: false }} />
+				<Stack.Screen name="sign-in" options={{ headerShown: true, title: 'Sign in' }} />
 			</Stack.Protected>
 		</Stack>
 	)

@@ -13,7 +13,13 @@ type SocialProvider = Extract<SocialAuthButtonProvider, 'google' | 'apple' | 'gi
 
 const SOCIAL_PROVIDERS: SocialProvider[] = ['google', 'apple', 'github']
 
-export default function AuthScreen(): JSX.Element {
+/**
+ * Dedicated sign-in screen for returning users, pushed from the Welcome screen
+ * (ADR-0009). Anonymous-first onboarding means this is no longer the app's
+ * entry wall — it's an opt-in destination for people who already have an
+ * account. The sign-up toggle is retained for now.
+ */
+export default function SignInScreen(): JSX.Element {
 	const [mode, setMode] = useState<Mode>('sign-in')
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
