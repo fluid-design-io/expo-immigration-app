@@ -5,6 +5,11 @@ import { InterviewStep } from '../../filing.interview-step'
 import { useAddApplicantForm } from '../add-applicant.context'
 import { toApplicantDraft } from '../add-applicant.wizard-form'
 
+const CARD_LABELS: Record<string, string> = {
+	ead: 'Work permit (EAD)',
+	greenCard: 'Green card',
+}
+
 /**
  * Final step page — review then save. No `FormGroup`: it reads the accumulated
  * answers and calls `form.handleSubmit()`, which runs the composed full-form
@@ -31,6 +36,11 @@ export function ConfirmStep() {
 						<Card className="gap-4 p-5">
 							<ReviewRow label="Legal name" value={draft.displayName} />
 							<ReviewRow label="A-Number" value={draft.profile.aNumber} />
+								<ReviewRow
+									label="Card"
+									value={CARD_LABELS[draft.profile.cardType] ?? draft.profile.cardType}
+								/>
+								<ReviewRow label="Card expiry" value={draft.profile.cardExpiry} />
 						</Card>
 					</InterviewStep>
 				)

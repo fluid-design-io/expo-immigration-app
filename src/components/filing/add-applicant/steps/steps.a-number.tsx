@@ -14,7 +14,7 @@ export function ANumberStep() {
 		<form.FormGroup
 			name="identity"
 			validators={{ onDynamic: identitySectionSchema }}
-			onGroupSubmit={() => router.push('/add-applicant/confirm')}
+			onGroupSubmit={() => router.push('/add-applicant/card')}
 		>
 			{(group) => (
 				<form.Subscribe selector={(s) => identitySectionSchema.safeParse(s.values.identity).success}>

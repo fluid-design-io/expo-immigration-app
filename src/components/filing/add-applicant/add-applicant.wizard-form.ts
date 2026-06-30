@@ -19,6 +19,12 @@ export const nameSectionSchema = profileFormSchema.pick({ givenName: true, famil
 /** Step 2 — identity. Reuses the shared A-Number shape (with its format regex). */
 export const identitySectionSchema = applicantProfileShape.pick({ aNumber: true })
 
+/** Step 3 — primary card type + expiry; the input the deadline reveal needs (#5). */
+export const cardSectionSchema = z.object({
+	cardType: z.enum(['ead', 'greenCard']),
+	cardExpiry: z.string().min(1, 'Add your card’s expiry date'),
+})
+
 /**
  * Full-form schema for the final `form.handleSubmit()`. It composes the section
  * schemas (its input type must match the form's data shape, so a `.partial()`
@@ -29,6 +35,14 @@ export const identitySectionSchema = applicantProfileShape.pick({ aNumber: true 
 export const addApplicantFullSchema = z.object({
 	name: nameSectionSchema,
 	identity: identitySectionSchema,
+	// String-typed so the form-level validator's input matches the form values,
+	// but refined to enforce cardSectionSchema's rules — so a direct jump to
+	// Confirm can't submit an empty card and leave an applicant without card data.
+	card: z
+		.object({ cardType: z.string(), cardExpiry: z.string() })
+		.refine((c) => cardSectionSchema.safeParse(c).success, {
+			message: 'Add your card type and expiry',
+		}),
 })
 
 /** Per-section default values — the keys are the `form.FormGroup name`s. */
@@ -36,6 +50,7 @@ export const addApplicantFormOpts = formOptions({
 	defaultValues: {
 		name: { givenName: '', familyName: '' },
 		identity: { aNumber: '' },
+		card: { cardType: '', cardExpiry: '' },
 	},
 })
 
@@ -44,7 +59,13 @@ export type AddApplicantValues = (typeof addApplicantFormOpts)['defaultValues']
 /** The applicant draft the host hands back on completion. */
 export type AddApplicantDraft = {
 	displayName: string
-	profile: { givenName: string; familyName: string; aNumber: string }
+	profile: {
+		givenName: string
+		familyName: string
+		aNumber: string
+		cardType: 'ead' | 'greenCard'
+		cardExpiry: string
+	}
 }
 
 /** Flatten the per-section answers into a create/update-ready applicant draft. */
@@ -54,6 +75,13 @@ export function toApplicantDraft(values: AddApplicantValues): AddApplicantDraft 
 	const aNumber = values.identity.aNumber.trim()
 	return {
 		displayName: [givenName, familyName].filter(Boolean).join(' '),
-		profile: { givenName, familyName, aNumber },
+		profile: {
+			givenName,
+			familyName,
+			aNumber,
+			// Gated by cardSectionSchema in the card step, so this is a valid value.
+			cardType: values.card.cardType as 'ead' | 'greenCard',
+			cardExpiry: values.card.cardExpiry,
+		},
 	}
 }

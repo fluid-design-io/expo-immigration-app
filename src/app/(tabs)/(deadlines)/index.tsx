@@ -1,25 +1,5 @@
-import { BodyScrollView } from '@/components/core'
-import { Stack } from 'expo-router'
-import { Typography, useThemeColor } from 'heroui-native'
+import { DeadlinesScreen } from '@/components/deadlines'
 
 export default function DeadlinesTab() {
-	const themeColorForeground = useThemeColor('foreground')
-	return (
-		<>
-			<Stack.Title
-				large
-				largeStyle={{
-					fontFamily: 'Fredoka_600SemiBold',
-					color: themeColorForeground,
-				}}
-			>
-				Deadlines
-			</Stack.Title>
-			<BodyScrollView>
-				<Typography.Paragraph color="muted">
-					Upcoming immigration deadlines and reminders will appear here.
-				</Typography.Paragraph>
-			</BodyScrollView>
-		</>
-	)
+	return <DeadlinesScreen />
 }
