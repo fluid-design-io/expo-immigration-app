@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar'
 import { HeroUINativeProvider } from 'heroui-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
+import { AccountGateProvider } from '@/components/account'
 import { authClient } from '@/lib/auth-client'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 
@@ -45,7 +46,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 							},
 						}}
 					>
-						{children}
+						<AccountGateProvider>{children}</AccountGateProvider>
 						<StatusBar style="auto" />
 					</HeroUINativeProvider>
 				</KeyboardProvider>
