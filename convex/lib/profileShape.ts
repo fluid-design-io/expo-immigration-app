@@ -30,6 +30,10 @@ export const applicantProfileShape = z.object({
 	dateOfBirth: z.string(),
 	countryOfBirth: z.string(),
 	eligibilityCategory: z.string(),
+	// The applicant's primary immigration card — drives the renewal deadline (#5).
+	// ISO 'YYYY-MM-DD' for the expiry.
+	cardType: z.enum(['ead', 'greenCard']),
+	cardExpiry: z.string(),
 	mailingAddress: addressShape,
 })
 
