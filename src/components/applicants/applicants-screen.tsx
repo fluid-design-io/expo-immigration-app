@@ -1,4 +1,4 @@
-import { Card, Spinner, Typography } from 'heroui-native'
+import { Card, ListGroup, Spinner, Typography } from 'heroui-native'
 import type { JSX } from 'react'
 import { ScrollView, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -43,9 +43,11 @@ export function ApplicantsScreen(): JSX.Element {
 						No applicants yet. Add yourself to get started.
 					</Typography.Paragraph>
 				) : (
-					applicants.map((applicant) => (
-						<ApplicantCard key={applicant._id} applicant={applicant} />
-					))
+					<ListGroup>
+						{applicants.map((applicant) => (
+							<ApplicantCard key={applicant._id} applicant={applicant} />
+						))}
+					</ListGroup>
 				)}
 			</View>
 		</ScrollView>

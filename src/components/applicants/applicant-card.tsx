@@ -1,7 +1,6 @@
 import { Link } from 'expo-router'
-import { Card, Typography } from 'heroui-native'
+import { ListGroup } from 'heroui-native'
 import type { JSX } from 'react'
-import { Pressable } from 'react-native'
 import type { Applicant, Relationship } from './applicants.data'
 
 const RELATIONSHIP_LABEL: Record<Relationship, string> = {
@@ -21,17 +20,16 @@ export function ApplicantCard({ applicant }: { applicant: Applicant }): JSX.Elem
 	const aNumber = applicant.profile?.aNumber
 	return (
 		<Link href={{ pathname: '/applicant/[id]', params: { id: applicant._id } }} asChild>
-			<Pressable>
-				<Card className="gap-1 p-4">
-					<Typography.Paragraph className="font-semibold">
-						{applicantName(applicant)}
-					</Typography.Paragraph>
-					<Typography.Paragraph color="muted" className="text-sm">
+			<ListGroup.Item>
+				<ListGroup.ItemContent>
+					<ListGroup.ItemTitle>{applicantName(applicant)}</ListGroup.ItemTitle>
+					<ListGroup.ItemDescription>
 						{RELATIONSHIP_LABEL[applicant.relationship]}
 						{aNumber ? ` · A-Number ${aNumber}` : ''}
-					</Typography.Paragraph>
-				</Card>
-			</Pressable>
+					</ListGroup.ItemDescription>
+				</ListGroup.ItemContent>
+				<ListGroup.ItemSuffix />
+			</ListGroup.Item>
 		</Link>
 	)
 }

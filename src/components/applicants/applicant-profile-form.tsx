@@ -62,9 +62,10 @@ export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): J
 			<KeyboardAwareScrollView
 				className="flex-1"
 				contentContainerClassName="gap-1 px-5 pb-2"
+				keyboardDismissMode="on-drag"
 				keyboardShouldPersistTaps="handled"
 				contentInsetAdjustmentBehavior="automatic"
-				bottomOffset={24}
+				bottomOffset={insets.bottom + 64}
 			>
 				<View className="gap-1">
 					<Typography.Heading className="text-2xl font-bold">
@@ -76,12 +77,22 @@ export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): J
 				</View>
 				<form.AppField name="givenName">
 					{(field) => (
-						<field.TextField label="First name" isRequired autoCapitalize="words" focusNextOnSubmit />
+						<field.TextField
+							label="First name"
+							isRequired
+							autoCapitalize="words"
+							focusNextOnSubmit
+						/>
 					)}
 				</form.AppField>
 				<form.AppField name="familyName">
 					{(field) => (
-						<field.TextField label="Last name" isRequired autoCapitalize="words" focusNextOnSubmit />
+						<field.TextField
+							label="Last name"
+							isRequired
+							autoCapitalize="words"
+							focusNextOnSubmit
+						/>
 					)}
 				</form.AppField>
 				<form.AppField name="aNumber">
@@ -117,12 +128,10 @@ export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): J
 				</View>
 			</KeyboardAwareScrollView>
 
-			<KeyboardStickyView>
-				<View className="bg-background">
-					<Separator />
-					<View className="px-5 pt-3" style={{ paddingBottom: insets.bottom + 12 }}>
-						<form.SubmitButton label="Save profile" />
-					</View>
+			<KeyboardStickyView className="bg-background" offset={{ opened: insets.bottom }}>
+				<Separator />
+				<View className="px-5 pt-3" style={{ paddingBottom: insets.bottom + 12 }}>
+					<form.SubmitButton label="Save profile" />
 				</View>
 			</KeyboardStickyView>
 		</form.AppForm>
