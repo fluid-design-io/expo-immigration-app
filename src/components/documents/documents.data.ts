@@ -1,9 +1,6 @@
 import { useMutation, useQuery } from 'convex/react'
-import { api, type Doc, type Id } from '@/lib/api'
-
-/** A stored vault document, typed from the Convex schema (server-driven types). */
-export type Document = Doc<'documents'>
-export type DocumentType = Document['type']
+import { api, type Id } from '@/lib/api'
+import type { Document } from './documents.types'
 
 /**
  * Every document in an applicant's vault. `undefined` while loading; `[]` once

@@ -1,13 +1,13 @@
 import { createFormHook } from '@tanstack/react-form'
-import DateField from './components/date-field'
-import NumberField from './components/number-field'
-import RadioGroupField from './components/radio-group-field'
-import SelectField from './components/select-field'
-import SubmitButton from './components/submit-button'
-import SwitchField from './components/switch-field'
-import TextAreaField from './components/text-area-field'
-import TextField from './components/text-field'
-import { fieldContext, formContext } from './hooks/form-context'
+import DateField from './form.date-field'
+import NumberField from './form.number-field'
+import RadioGroupField from './form.radio-group-field'
+import SelectField from './form.select-field'
+import SubmitButton from './form.submit-button'
+import SwitchField from './form.switch-field'
+import TextAreaField from './form.text-area-field'
+import TextField from './form.text-field'
+import { fieldContext, formContext } from './form.context'
 
 // The app's TanStack Form hook, pre-wired with HeroUI-Native field components.
 // Add new field types to `fieldComponents` and they become available as

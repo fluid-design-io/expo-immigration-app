@@ -1,6 +1,6 @@
-import { AddCaseForm } from './add-form'
-import { CaseCard } from './card'
-import { CaseStatusTimeline } from './status-timeline'
+import { AddCaseForm } from './case.add-form'
+import { CaseCard } from './case.card'
+import { CaseStatusTimeline } from './case.status-timeline'
 
 /**
  * The multi-part case UI as one compound namespace. `CasesScreen` composes the
