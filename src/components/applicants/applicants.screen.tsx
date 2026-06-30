@@ -1,3 +1,4 @@
+import { DocumentVault } from '@/components/documents'
 import { router } from 'expo-router'
 import { Button, ListGroup, Spinner, Typography } from 'heroui-native'
 import { ScrollView, View } from 'react-native'
@@ -11,6 +12,7 @@ import { useApplicants } from './applicants.data'
  */
 export function ApplicantsScreen() {
 	const applicants = useApplicants()
+	const self = applicants?.find((applicant) => applicant.relationship === 'self')
 
 	return (
 		<ScrollView
@@ -49,6 +51,13 @@ export function ApplicantsScreen() {
 					</>
 				)}
 			</View>
+
+			{self ? (
+				<View className="gap-3">
+					<Typography.Heading className="text-lg font-bold">Your documents</Typography.Heading>
+					<DocumentVault applicantId={self._id} />
+				</View>
+			) : null}
 		</ScrollView>
 	)
 }
