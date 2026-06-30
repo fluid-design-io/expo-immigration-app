@@ -8,8 +8,13 @@
  * @module
  */
 
+import type * as applicants from "../applicants.js";
 import type * as auth from "../auth.js";
+import type * as documents from "../documents.js";
 import type * as http from "../http.js";
+import type * as lib_auth from "../lib/auth.js";
+import type * as lib_validators from "../lib/validators.js";
+import type * as model_applicants from "../model/applicants.js";
 import type * as todos from "../todos.js";
 
 import type {
@@ -19,8 +24,13 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  applicants: typeof applicants;
   auth: typeof auth;
+  documents: typeof documents;
   http: typeof http;
+  "lib/auth": typeof lib_auth;
+  "lib/validators": typeof lib_validators;
+  "model/applicants": typeof model_applicants;
   todos: typeof todos;
 }>;
 

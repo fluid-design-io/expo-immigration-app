@@ -11,7 +11,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:once": "vitest run"
   },
   "dependencies": {
     "@better-auth/expo": "~1.6.22",
@@ -34,6 +36,7 @@
     "expo": "~56.0.5",
     "expo-constants": "~56.0.16",
     "expo-device": "~56.0.4",
+    "expo-file-system": "~56.0.8",
     "expo-font": "~56.0.5",
     "expo-haptics": "~56.0.3",
     "expo-image": "~56.0.11",
@@ -65,11 +68,14 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "^5.0.0",
     "@types/react": "~19.2.15",
+    "convex-test": "^0.0.54",
     "eslint": "^9.39.4",
     "eslint-config-expo": "^56.0.4",
     "oxfmt": "^0.55.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vitest": "^4.1.9"
   },
   "trustedDependencies": [
     "heroui-pro",
