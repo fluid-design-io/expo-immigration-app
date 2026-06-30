@@ -12,6 +12,7 @@ import { HeroUINativeProvider } from 'heroui-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { authClient } from '@/lib/auth-client'
+import { KeyboardProvider } from 'react-native-keyboard-controller'
 
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
 	// expectAuth: true,
@@ -36,16 +37,18 @@ export function Providers({ children }: { children: React.ReactNode }) {
 	return (
 		<ConvexBetterAuthProvider client={convex} authClient={authClient as unknown as AuthClient}>
 			<GestureHandlerRootView style={{ flex: 1 }}>
-				<HeroUINativeProvider
-					config={{
-						devInfo: {
-							stylingPrinciples: false,
-						},
-					}}
-				>
-					{children}
-					<StatusBar style="auto" />
-				</HeroUINativeProvider>
+				<KeyboardProvider>
+					<HeroUINativeProvider
+						config={{
+							devInfo: {
+								stylingPrinciples: false,
+							},
+						}}
+					>
+						{children}
+						<StatusBar style="auto" />
+					</HeroUINativeProvider>
+				</KeyboardProvider>
 			</GestureHandlerRootView>
 		</ConvexBetterAuthProvider>
 	)

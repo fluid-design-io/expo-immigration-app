@@ -1,6 +1,7 @@
 import { Description, FieldError, Input, Label, TextField as HeroTextField } from 'heroui-native'
 import type { JSX } from 'react'
 import type { TextInputProps } from 'react-native'
+import { KeyboardController } from 'react-native-keyboard-controller'
 import { useFieldContext } from '../hooks/form-context'
 import { fieldErrorText } from '../utils'
 
@@ -31,6 +32,12 @@ export default function TextField({
 				onChangeText={field.handleChange}
 				onBlur={field.handleBlur}
 				editable={!isDisabled}
+				// Ref-free "next field" UX: pressing return moves focus to the next
+				// input (keyboard stays up) via react-native-keyboard-controller.
+				// Callers can override (e.g. the last field) by passing these props.
+				returnKeyType="next"
+				submitBehavior="submit"
+				onSubmitEditing={() => KeyboardController.setFocusTo('next')}
 				{...inputProps}
 			/>
 			{description ? <Description>{description}</Description> : null}
