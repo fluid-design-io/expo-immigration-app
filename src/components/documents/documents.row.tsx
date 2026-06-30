@@ -24,10 +24,16 @@ const TYPE_LABEL: Record<DocumentType, string> = {
 export function DocumentRow({ document }: { document: Document }) {
 	const convex = useConvex()
 	const deleteDocument = useDeleteDocument()
-	const [busy, setBusy] = useState<'open' | 'delete' | null>(null)
+	const [busy, setBusy] = useState<{ id: string; action: 'open' | 'delete' } | null>(null)
+
+	// FlashList recycles this row for different documents without remounting, so
+	// key the busy state to the document id and ignore it for any other — a
+	// recycled row never shows a stale "Opening…"/"Deleting…" or stays disabled
+	// for the wrong document.
+	const busyAction = busy?.id === document._id ? busy.action : null
 
 	async function handleOpen(): Promise<void> {
-		setBusy('open')
+		setBusy({ id: document._id, action: 'open' })
 		try {
 			const url = await convex.query(api.documents.getDocumentUrl, { documentId: document._id })
 			if (url) {
@@ -43,7 +49,7 @@ export function DocumentRow({ document }: { document: Document }) {
 	}
 
 	async function handleDelete(): Promise<void> {
-		setBusy('delete')
+		setBusy({ id: document._id, action: 'delete' })
 		try {
 			await deleteDocument({ documentId: document._id })
 		} catch (err) {
@@ -65,12 +71,12 @@ export function DocumentRow({ document }: { document: Document }) {
 			</View>
 			<View className="flex-row gap-1">
 				{document.storageId ? (
-					<Button size="sm" variant="ghost" isDisabled={busy !== null} onPress={handleOpen}>
-						<Button.Label>{busy === 'open' ? 'Opening…' : 'Open'}</Button.Label>
+					<Button size="sm" variant="ghost" isDisabled={busyAction !== null} onPress={handleOpen}>
+						<Button.Label>{busyAction === 'open' ? 'Opening…' : 'Open'}</Button.Label>
 					</Button>
 				) : null}
-				<Button size="sm" variant="ghost" isDisabled={busy !== null} onPress={handleDelete}>
-					<Button.Label>{busy === 'delete' ? 'Deleting…' : 'Delete'}</Button.Label>
+				<Button size="sm" variant="ghost" isDisabled={busyAction !== null} onPress={handleDelete}>
+					<Button.Label>{busyAction === 'delete' ? 'Deleting…' : 'Delete'}</Button.Label>
 				</Button>
 			</View>
 		</Card>
