@@ -19,8 +19,8 @@ function DeadlineHero({ deadline }: { deadline: ApplicantDeadline }) {
 			</Typography.Paragraph>
 			<Typography.Heading className="text-2xl font-bold">
 				{expired
-					? `Your ${rule.cardLabel} expired ${Math.abs(daysUntilExpiry)} days ago`
-					: `Your ${rule.cardLabel} expires in ${daysUntilExpiry} days`}
+					? `${rule.cardLabel} expired ${Math.abs(daysUntilExpiry)} days ago`
+					: `${rule.cardLabel} expires in ${daysUntilExpiry} days`}
 			</Typography.Heading>
 			<Typography.Paragraph>File by {formatDate(fileByDate)}</Typography.Paragraph>
 			{showAutoExtensionWarning ? (

@@ -17,7 +17,12 @@ export function useDeadlines(): ApplicantDeadline[] | undefined {
 	if (applicants === undefined) {
 		return undefined
 	}
-	const today = new Date().toISOString().slice(0, 10)
+	// The user's LOCAL civil date — card expiry is a local date they pick, so a
+	// UTC date string would skew the day count by one near timezone boundaries.
+	const now = new Date()
+	const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(
+		now.getDate(),
+	).padStart(2, '0')}`
 	return applicants
 		.filter((a) => a.profile?.cardType && a.profile?.cardExpiry)
 		.map((a) => ({

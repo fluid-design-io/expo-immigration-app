@@ -35,9 +35,14 @@ export const cardSectionSchema = z.object({
 export const addApplicantFullSchema = z.object({
 	name: nameSectionSchema,
 	identity: identitySectionSchema,
-	// Lenient (string) so the form-level validator input matches the string-typed
-	// form values; the strict cardSectionSchema gates the card step per-section.
-	card: z.object({ cardType: z.string(), cardExpiry: z.string() }),
+	// String-typed so the form-level validator's input matches the form values,
+	// but refined to enforce cardSectionSchema's rules — so a direct jump to
+	// Confirm can't submit an empty card and leave an applicant without card data.
+	card: z
+		.object({ cardType: z.string(), cardExpiry: z.string() })
+		.refine((c) => cardSectionSchema.safeParse(c).success, {
+			message: 'Add your card type and expiry',
+		}),
 })
 
 /** Per-section default values — the keys are the `form.FormGroup name`s. */
