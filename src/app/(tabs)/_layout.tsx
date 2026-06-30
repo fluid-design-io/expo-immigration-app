@@ -10,6 +10,10 @@ export default function TabsLayout(): JSX.Element {
 				<NativeTabs.Trigger.Icon sf="house.fill" md="home" />
 				<NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
+			<NativeTabs.Trigger name="applicants">
+				<NativeTabs.Trigger.Icon sf="person.2.fill" md="group" />
+				<NativeTabs.Trigger.Label>Applicants</NativeTabs.Trigger.Label>
+			</NativeTabs.Trigger>
 			<NativeTabs.Trigger name="explore">
 				<NativeTabs.Trigger.Icon sf="safari.fill" md="explore" />
 				<NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
