@@ -7,6 +7,7 @@ import {
 	DEGREE_LEVEL_OPTIONS,
 	ELIGIBILITY_CATEGORY_OPTIONS,
 	getVisibleSteps,
+	i765FullSchema,
 	optionLabel,
 	REASON_FOR_FILING_OPTIONS,
 } from '../i765.wizard-form'
@@ -20,8 +21,17 @@ import {
 export function ReviewStep() {
 	const form = useI765Form()
 	return (
-		<form.Subscribe selector={(s) => ({ values: s.values, isSubmitting: s.isSubmitting })}>
-			{({ values, isSubmitting }) => {
+		<form.Subscribe
+			selector={(s) => ({
+				values: s.values,
+				isSubmitting: s.isSubmitting,
+				// Gate Finish on the SAME schema the submit runs, so a back-navigation
+				// that leaves a visible step incomplete (e.g. cleared STEM answers for a
+				// (c)(3)(C) filing) disables Finish rather than failing it silently.
+				canFinish: i765FullSchema.safeParse(s.values).success,
+			})}
+		>
+			{({ values, isSubmitting, canFinish }) => {
 				const showStem = getVisibleSteps(values).includes('stemDetails')
 				const fullName = [values.aboutYou.givenName, values.aboutYou.familyName]
 					.filter(Boolean)
@@ -33,34 +43,44 @@ export function ReviewStep() {
 						help="We’ll save these answers so you can pick up where you left off. Preparing your filled Form I-765 comes in a later step."
 						onBack={() => router.back()}
 						onNext={() => form.handleSubmit()}
-						canAdvance={!isSubmitting}
+						canAdvance={canFinish && !isSubmitting}
 						isNextPending={isSubmitting}
 						nextLabel={isSubmitting ? 'Saving…' : 'Finish'}
 					>
-						<Card className="gap-4 p-5">
-							<ReviewRow
-								label="Reason for filing"
-								value={optionLabel(REASON_FOR_FILING_OPTIONS, values.reasonForFiling.reasonForFiling)}
-							/>
-							<ReviewRow
-								label="Eligibility category"
-								value={optionLabel(
-									ELIGIBILITY_CATEGORY_OPTIONS,
-									values.eligibility.eligibilityCategory,
-								)}
-							/>
-							{showStem ? (
-								<>
-									<ReviewRow
-										label="Degree level"
-										value={optionLabel(DEGREE_LEVEL_OPTIONS, values.stemDetails.degreeLevel)}
-									/>
-									<ReviewRow label="SEVIS ID" value={values.stemDetails.sevisNumber} />
-								</>
+						<View className="gap-4">
+							<Card className="gap-4 p-5">
+								<ReviewRow
+									label="Reason for filing"
+									value={optionLabel(
+										REASON_FOR_FILING_OPTIONS,
+										values.reasonForFiling.reasonForFiling,
+									)}
+								/>
+								<ReviewRow
+									label="Eligibility category"
+									value={optionLabel(
+										ELIGIBILITY_CATEGORY_OPTIONS,
+										values.eligibility.eligibilityCategory,
+									)}
+								/>
+								{showStem ? (
+									<>
+										<ReviewRow
+											label="Degree level"
+											value={optionLabel(DEGREE_LEVEL_OPTIONS, values.stemDetails.degreeLevel)}
+										/>
+										<ReviewRow label="SEVIS ID" value={values.stemDetails.sevisNumber} />
+									</>
+								) : null}
+								<ReviewRow label="Legal name" value={fullName} />
+								<ReviewRow label="A-Number" value={values.aboutYou.aNumber} />
+							</Card>
+							{!canFinish ? (
+								<Typography.Paragraph color="muted" className="text-sm">
+									Some answers are still missing. Go back and complete each step to finish.
+								</Typography.Paragraph>
 							) : null}
-							<ReviewRow label="Legal name" value={fullName} />
-							<ReviewRow label="A-Number" value={values.aboutYou.aNumber} />
-						</Card>
+						</View>
 					</InterviewStep>
 				)
 			}}
