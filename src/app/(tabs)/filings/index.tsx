@@ -1,6 +1,6 @@
-import { BodyScrollView } from '@/components/core/body-scroll-view'
+import { CasesScreen } from '@/components/cases'
 import { Stack } from 'expo-router'
-import { Typography, useThemeColor } from 'heroui-native'
+import { useThemeColor } from 'heroui-native'
 import type { JSX } from 'react'
 
 export default function FilingsTab(): JSX.Element {
@@ -16,11 +16,7 @@ export default function FilingsTab(): JSX.Element {
 			>
 				Filings
 			</Stack.Title>
-			<BodyScrollView>
-				<Typography.Paragraph color="muted">
-					Track your immigration applications and their progress here.
-				</Typography.Paragraph>
-			</BodyScrollView>
+			<CasesScreen />
 		</>
 	)
 }

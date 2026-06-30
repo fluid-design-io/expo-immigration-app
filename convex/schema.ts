@@ -5,6 +5,11 @@ import {
 	documentTypeValidator,
 	relationshipValidator,
 } from './lib/validators'
+import {
+	caseFormTypeValidator,
+	caseHistoryEntryValidator,
+	caseStatusValidator,
+} from './model/cases'
 
 // The Better Auth component manages its own tables in an isolated component
 // namespace, so no auth tables are needed here. Application tables below are
@@ -39,4 +44,18 @@ export default defineSchema({
 	})
 		.index('by_applicantId', ['applicantId'])
 		.index('by_applicantId_and_type', ['applicantId', 'type']),
+
+	// A Case is an in-progress USCIS matter — it exists only once a filing has
+	// been received, and is tracked by its Receipt Number (CONTEXT.md, ADR-0008).
+	// v1 is manual entry only: the user records the current status and we keep a
+	// history timeline. `history` is bounded by the 7 canonical stages, so it is
+	// safe to keep inline on the document.
+	cases: defineTable({
+		ownerId: v.string(),
+		applicantId: v.optional(v.id('applicants')),
+		formType: v.optional(caseFormTypeValidator),
+		receiptNumber: v.string(),
+		currentStatus: caseStatusValidator,
+		history: v.array(caseHistoryEntryValidator),
+	}).index('by_ownerId', ['ownerId']),
 })
