@@ -1,7 +1,7 @@
+import type { Id } from '@/lib/api'
 import { Spinner, Typography } from 'heroui-native'
 import type { JSX } from 'react'
 import { View } from 'react-native'
-import type { Id } from '@/lib/api'
 import { ApplicantProfileForm } from './applicant-profile-form'
 import { useApplicant } from './applicants.data'
 
@@ -18,7 +18,7 @@ export function ApplicantProfileScreen({
 
 	if (applicant === undefined) {
 		return (
-			<View className="flex-1 items-center justify-center bg-background">
+			<View className="flex-1 items-center justify-center">
 				<Spinner />
 			</View>
 		)
@@ -26,23 +26,11 @@ export function ApplicantProfileScreen({
 
 	if (applicant === null) {
 		return (
-			<View className="flex-1 items-center justify-center bg-background px-5">
+			<View className="flex-1 items-center justify-center px-5">
 				<Typography.Paragraph color="muted">Applicant not found.</Typography.Paragraph>
 			</View>
 		)
 	}
 
-	return (
-		<View className="flex-1 bg-background">
-			<View className="gap-1 px-5 pb-2 pt-3">
-				<Typography.Heading className="text-2xl font-bold">
-					{applicant.displayName}
-				</Typography.Heading>
-				<Typography.Paragraph color="muted">
-					These details autofill this applicant&rsquo;s renewals.
-				</Typography.Paragraph>
-			</View>
-			<ApplicantProfileForm applicant={applicant} />
-		</View>
-	)
+	return <ApplicantProfileForm applicant={applicant} />
 }

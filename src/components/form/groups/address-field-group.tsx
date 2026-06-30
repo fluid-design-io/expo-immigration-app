@@ -14,18 +14,29 @@ export const AddressFieldGroup = withFieldGroup({
 		return (
 			<View className="gap-4">
 				<group.AppField name="line1">
-					{(field) => <field.TextField label="Street address" autoCapitalize="words" />}
+					{(field) => (
+						<field.TextField label="Street address" autoCapitalize="words" focusNextOnSubmit />
+					)}
 				</group.AppField>
 				<group.AppField name="city">
-					{(field) => <field.TextField label="City" autoCapitalize="words" />}
+					{(field) => <field.TextField label="City" autoCapitalize="words" focusNextOnSubmit />}
 				</group.AppField>
 				<View className="flex-row gap-3">
 					<View className="flex-1">
 						<group.AppField name="state">
-							{(field) => <field.TextField label="State" autoCapitalize="characters" maxLength={2} />}
+							{(field) => (
+								<field.TextField
+									label="State"
+									autoCapitalize="characters"
+									maxLength={2}
+									focusNextOnSubmit
+								/>
+							)}
 						</group.AppField>
 					</View>
 					<View className="flex-1">
+						{/* ZIP is the last address field and uses a number-pad (no return key),
+						    so it does NOT advance focus — avoids the floating "Next" accessory. */}
 						<group.AppField name="postalCode">
 							{(field) => <field.TextField label="ZIP" keyboardType="number-pad" maxLength={10} />}
 						</group.AppField>

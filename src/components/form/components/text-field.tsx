@@ -10,6 +10,19 @@ type TextFieldProps = {
 	description?: string
 	isRequired?: boolean
 	isDisabled?: boolean
+	/**
+	 * Advance focus to the next form input when the user submits (return key),
+	 * keeping the keyboard up — ref-free, via react-native-keyboard-controller.
+	 *
+	 * Opt-in on purpose: leave it OFF for the last field of a form. Otherwise the
+	 * return key is labelled "Next", and on keyboards with no return key (e.g.
+	 * `keyboardType="number-pad"`) iOS renders that "Next" as a floating accessory
+	 * button — which is confusing when there is nothing to advance to.
+	 *
+	 * Explicit `returnKeyType` / `submitBehavior` / `onSubmitEditing` passed by the
+	 * caller still win (they spread after these defaults).
+	 */
+	focusNextOnSubmit?: boolean
 } & Omit<TextInputProps, 'value' | 'onChangeText' | 'onBlur' | 'editable'>
 
 /** Single-line text field bound to a TanStack string field. */
@@ -18,11 +31,20 @@ export default function TextField({
 	description,
 	isRequired,
 	isDisabled,
+	focusNextOnSubmit,
 	...inputProps
 }: TextFieldProps): JSX.Element {
 	const field = useFieldContext<string>()
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 	const error = fieldErrorText(field.state.meta.errors)
+
+	const nextFieldProps: Partial<TextInputProps> = focusNextOnSubmit
+		? {
+				returnKeyType: 'next',
+				submitBehavior: 'submit',
+				onSubmitEditing: () => KeyboardController.setFocusTo('next'),
+			}
+		: {}
 
 	return (
 		<HeroTextField isInvalid={isInvalid} isRequired={isRequired} isDisabled={isDisabled}>
@@ -32,12 +54,7 @@ export default function TextField({
 				onChangeText={field.handleChange}
 				onBlur={field.handleBlur}
 				editable={!isDisabled}
-				// Ref-free "next field" UX: pressing return moves focus to the next
-				// input (keyboard stays up) via react-native-keyboard-controller.
-				// Callers can override (e.g. the last field) by passing these props.
-				returnKeyType="next"
-				submitBehavior="submit"
-				onSubmitEditing={() => KeyboardController.setFocusTo('next')}
+				{...nextFieldProps}
 				{...inputProps}
 			/>
 			{description ? <Description>{description}</Description> : null}

@@ -1,10 +1,10 @@
+import { AddressFieldGroup, useAppForm } from '@/components/form'
 import { Separator, Typography } from 'heroui-native'
 import type { JSX } from 'react'
 import { Alert, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardStickyView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { z } from 'zod'
-import { AddressFieldGroup, useAppForm } from '@/components/form'
 import type { Applicant } from './applicants.data'
 import { useUpdateApplicantProfile } from './applicants.data'
 
@@ -59,57 +59,72 @@ export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): J
 
 	return (
 		<form.AppForm>
-			<View className="flex-1">
-				<KeyboardAwareScrollView
-					className="flex-1"
-					contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24, gap: 16 }}
-					keyboardShouldPersistTaps="handled"
-					bottomOffset={24}
-				>
-					<form.AppField name="givenName">
-						{(field) => <field.TextField label="First name" isRequired autoCapitalize="words" />}
-					</form.AppField>
-					<form.AppField name="familyName">
-						{(field) => <field.TextField label="Last name" isRequired autoCapitalize="words" />}
-					</form.AppField>
-					<form.AppField name="aNumber">
-						{(field) => (
-							<field.TextField
-								label="A-Number"
-								placeholder="A000000000"
-								autoCapitalize="characters"
-								description="Your Alien Registration Number — the same across every filing."
-							/>
-						)}
-					</form.AppField>
-					<form.AppField name="dateOfBirth">
-						{(field) => <field.TextField label="Date of birth" placeholder="YYYY-MM-DD" />}
-					</form.AppField>
-					<form.AppField name="eligibilityCategory">
-						{(field) => (
-							<field.TextField
-								label="EAD eligibility category"
-								placeholder="e.g. C08"
-								autoCapitalize="characters"
-							/>
-						)}
-					</form.AppField>
+			<KeyboardAwareScrollView
+				className="flex-1"
+				contentContainerClassName="gap-1 px-5 pb-2"
+				keyboardShouldPersistTaps="handled"
+				contentInsetAdjustmentBehavior="automatic"
+				bottomOffset={24}
+			>
+				<View className="gap-1">
+					<Typography.Heading className="text-2xl font-bold">
+						{applicant.displayName}
+					</Typography.Heading>
+					<Typography.Paragraph color="muted">
+						These details autofill this applicant&rsquo;s renewals.
+					</Typography.Paragraph>
+				</View>
+				<form.AppField name="givenName">
+					{(field) => (
+						<field.TextField label="First name" isRequired autoCapitalize="words" focusNextOnSubmit />
+					)}
+				</form.AppField>
+				<form.AppField name="familyName">
+					{(field) => (
+						<field.TextField label="Last name" isRequired autoCapitalize="words" focusNextOnSubmit />
+					)}
+				</form.AppField>
+				<form.AppField name="aNumber">
+					{(field) => (
+						<field.TextField
+							label="A-Number"
+							placeholder="A000000000"
+							autoCapitalize="characters"
+							description="Your Alien Registration Number — the same across every filing."
+							focusNextOnSubmit
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="dateOfBirth">
+					{(field) => (
+						<field.TextField label="Date of birth" placeholder="YYYY-MM-DD" focusNextOnSubmit />
+					)}
+				</form.AppField>
+				<form.AppField name="eligibilityCategory">
+					{(field) => (
+						<field.TextField
+							label="EAD eligibility category"
+							placeholder="e.g. C08"
+							autoCapitalize="characters"
+							focusNextOnSubmit
+						/>
+					)}
+				</form.AppField>
 
-					<View className="mt-2 gap-3">
-						<Typography.Paragraph className="font-semibold">Mailing address</Typography.Paragraph>
-						<AddressFieldGroup form={form} fields="mailingAddress" />
-					</View>
-				</KeyboardAwareScrollView>
+				<View className="mt-2 gap-3">
+					<Typography.Paragraph className="font-semibold">Mailing address</Typography.Paragraph>
+					<AddressFieldGroup form={form} fields="mailingAddress" />
+				</View>
+			</KeyboardAwareScrollView>
 
-				<KeyboardStickyView>
-					<View className="bg-background">
-						<Separator />
-						<View className="px-5 pt-3" style={{ paddingBottom: insets.bottom + 12 }}>
-							<form.SubmitButton label="Save profile" />
-						</View>
+			<KeyboardStickyView>
+				<View className="bg-background">
+					<Separator />
+					<View className="px-5 pt-3" style={{ paddingBottom: insets.bottom + 12 }}>
+						<form.SubmitButton label="Save profile" />
 					</View>
-				</KeyboardStickyView>
-			</View>
+				</View>
+			</KeyboardStickyView>
 		</form.AppForm>
 	)
 }
