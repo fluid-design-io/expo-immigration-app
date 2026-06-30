@@ -1,7 +1,6 @@
 import { authClient } from '@/lib/auth-client'
 import { useRouter } from 'expo-router'
 import { Button, Typography } from 'heroui-native'
-import type { JSX } from 'react'
 import { useState } from 'react'
 import { Alert, View } from 'react-native'
 
@@ -11,7 +10,7 @@ import { Alert, View } from 'react-native'
  * guard in `_layout.tsx` flips to the authenticated group, dropping the user
  * straight into the tabs. Returning users push the dedicated sign-in screen.
  */
-export default function WelcomeScreen(): JSX.Element {
+export default function WelcomeScreen() {
 	const router = useRouter()
 	const [pending, setPending] = useState(false)
 
@@ -20,10 +19,7 @@ export default function WelcomeScreen(): JSX.Element {
 		try {
 			const { error } = await authClient.signIn.anonymous()
 			if (error) {
-				Alert.alert(
-					"Couldn't start",
-					error.message ?? 'Please try again in a moment.',
-				)
+				Alert.alert("Couldn't start", error.message ?? 'Please try again in a moment.')
 			}
 			// On success the Convex auth state flips to authenticated and the
 			// protected route in the root layout redirects into the tabs — there is
@@ -42,9 +38,8 @@ export default function WelcomeScreen(): JSX.Element {
 					Renew with confidence
 				</Typography.Heading>
 				<Typography.Paragraph color="muted" className="text-lg">
-					Track deadlines, organize your documents, and prepare your immigration
-					filing — step by step. Start now; create an account only when you're
-					ready to submit.
+					Track deadlines, organize your documents, and prepare your immigration filing — step by
+					step. Start now; create an account only when you're ready to submit.
 				</Typography.Paragraph>
 			</View>
 
@@ -53,11 +48,7 @@ export default function WelcomeScreen(): JSX.Element {
 					<Button.Label>{pending ? 'Starting…' : 'Start filing'}</Button.Label>
 				</Button>
 
-				<Button
-					variant="ghost"
-					isDisabled={pending}
-					onPress={() => router.push('/sign-in')}
-				>
+				<Button variant="ghost" isDisabled={pending} onPress={() => router.push('/sign-in')}>
 					<Button.Label>Sign in</Button.Label>
 				</Button>
 			</View>

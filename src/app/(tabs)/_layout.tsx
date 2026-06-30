@@ -1,8 +1,7 @@
 import { useTabLayoutStyle } from '@/hooks/use-layout-style'
 import { NativeTabs } from 'expo-router/unstable-native-tabs'
-import type { JSX } from 'react'
 
-export default function TabsLayout(): JSX.Element {
+export default function TabsLayout() {
 	const { tabBarStyle } = useTabLayoutStyle()
 	return (
 		<NativeTabs {...tabBarStyle} sidebarAdaptable>

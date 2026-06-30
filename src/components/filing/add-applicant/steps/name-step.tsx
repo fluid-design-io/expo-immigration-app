@@ -1,4 +1,3 @@
-import type { JSX } from 'react'
 import { withForm } from '@/components/form'
 import { InterviewStep } from '../../interview-step'
 import { addApplicantFormOpts, nameSectionSchema } from '../wizard-form'
@@ -14,7 +13,7 @@ export const NameStep = withForm({
 		onBack: (() => {}) as undefined | (() => void),
 		onAdvance: () => {},
 	},
-	render: function NameStepRender({ form, onBack, onAdvance }): JSX.Element {
+	render: function NameStepRender({ form, onBack, onAdvance }) {
 		return (
 			<form.FormGroup
 				name="name"

@@ -1,9 +1,8 @@
 import { BodyScrollView } from '@/components/core/body-scroll-view'
 import { Stack } from 'expo-router'
 import { Typography, useThemeColor } from 'heroui-native'
-import type { JSX } from 'react'
 
-export default function AccountTab(): JSX.Element {
+export default function AccountTab() {
 	const themeColorForeground = useThemeColor('foreground')
 	return (
 		<>

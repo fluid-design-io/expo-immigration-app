@@ -1,14 +1,13 @@
 import { useConvexAuth } from 'convex/react'
 import { Stack } from 'expo-router'
 import { Spinner } from 'heroui-native'
-import type { JSX } from 'react'
 import { View } from 'react-native'
 
 import { Providers } from '@/components/providers'
 import { useLayoutStyle } from '@/hooks/use-layout-style'
 import '../global.css'
 
-export default function RootLayout(): JSX.Element {
+export default function RootLayout() {
 	return (
 		<Providers>
 			<AppContent />
@@ -16,7 +15,7 @@ export default function RootLayout(): JSX.Element {
 	)
 }
 
-const AppContent = (): JSX.Element => {
+const AppContent = () => {
 	const layoutStyle = useLayoutStyle()
 	const { isLoading, isAuthenticated } = useConvexAuth()
 
@@ -38,12 +37,12 @@ const AppContent = (): JSX.Element => {
 				<Stack.Screen name="applicant/[id]" options={{ headerShown: true, title: 'Profile' }} />
 				{/* Root-level modal slots present above the tab bar. */}
 				<Stack.Screen
-					name="add-applicant"
-					options={{ presentation: 'modal', headerShown: true, title: 'Add applicant' }}
-				/>
-				<Stack.Screen
-					name="upgrade"
-					options={{ presentation: 'modal', headerShown: true, title: 'Account upgrade' }}
+					name="(modal)"
+					options={{
+						presentation: 'modal',
+						animation: 'fade_from_bottom',
+						headerShown: false,
+					}}
 				/>
 			</Stack.Protected>
 			<Stack.Protected guard={!isAuthenticated}>

@@ -1,7 +1,6 @@
 import { authClient } from '@/lib/auth-client'
 import { Button, Input, Label, Separator, TextField, Typography } from 'heroui-native'
 import { SocialAuthButton, type SocialAuthButtonProvider } from 'heroui-native-pro'
-import type { JSX } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Alert, View } from 'react-native'
 import { useAccountSession } from './use-account-session'
@@ -24,7 +23,7 @@ const SOCIAL_PROVIDERS: SocialProvider[] = ['apple', 'google']
  * the session covers both email sign-up (resolves inline) and social sign-in
  * (resolves after the OAuth deep-link callback).
  */
-export function UpgradeActions({ onUpgraded }: { onUpgraded?: () => void }): JSX.Element {
+export function UpgradeActions({ onUpgraded }: { onUpgraded?: () => void }) {
 	const { isCredentialed } = useAccountSession()
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')

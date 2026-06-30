@@ -1,13 +1,12 @@
+import { useAppForm } from '@/components/form'
 import { revalidateLogic } from '@tanstack/react-form'
-import type { JSX } from 'react'
 import { useState } from 'react'
 import { Alert } from 'react-native'
-import { useAppForm } from '@/components/form'
 import { ANumberStep } from './steps/a-number-step'
 import { ConfirmStep } from './steps/confirm-step'
 import { NameStep } from './steps/name-step'
-import { addApplicantFormOpts, addApplicantFullSchema, toApplicantDraft } from './wizard-form'
 import type { AddApplicantDraft } from './wizard-form'
+import { addApplicantFormOpts, addApplicantFullSchema, toApplicantDraft } from './wizard-form'
 
 type AddApplicantInterviewProps = {
 	/**
@@ -29,10 +28,7 @@ const STEP_COUNT = 3
  * components (not a route-per-step) so every answer, cross-step validation, and
  * the single submit payload come for free. Filing wizards reuse this shape.
  */
-export function AddApplicantInterview({
-	onComplete,
-	onCancel,
-}: AddApplicantInterviewProps): JSX.Element {
+export function AddApplicantInterview({ onComplete, onCancel }: AddApplicantInterviewProps) {
 	const [stepIndex, setStepIndex] = useState(0)
 
 	const form = useAppForm({

@@ -1,5 +1,4 @@
 import { BottomSheet } from 'heroui-native'
-import type { JSX } from 'react'
 import { View } from 'react-native'
 import type { InvestedProgress } from './account-gate-store'
 import { InvestedProgressRecap } from './invested-progress-recap'
@@ -21,12 +20,7 @@ type UpgradeSheetProps = {
  * invested-progress recap and the shared upgrade actions; converts an anonymous
  * user to a credentialed account in place and auto-resumes via `onUpgraded`.
  */
-export function UpgradeSheet({
-	isOpen,
-	recap,
-	onUpgraded,
-	onDismiss,
-}: UpgradeSheetProps): JSX.Element {
+export function UpgradeSheet({ isOpen, recap, onUpgraded, onDismiss }: UpgradeSheetProps) {
 	return (
 		<BottomSheet
 			isOpen={isOpen}

@@ -1,5 +1,4 @@
 import { Button, Input, Label, TextField, Typography } from 'heroui-native'
-import type { JSX } from 'react'
 import { useState } from 'react'
 import { Alert, View } from 'react-native'
 import { useCreateApplicant, type Relationship } from './applicants.data'
@@ -11,7 +10,7 @@ const RELATIONSHIPS: { value: Relationship; label: string }[] = [
 ]
 
 /** Inline form to add an applicant. Calls `onAdded` after a successful create. */
-export function AddApplicantForm({ onAdded }: { onAdded?: () => void }): JSX.Element {
+export function AddApplicantForm({ onAdded }: { onAdded?: () => void }) {
 	const createApplicant = useCreateApplicant()
 	const [displayName, setDisplayName] = useState('')
 	const [relationship, setRelationship] = useState<Relationship>('self')

@@ -1,9 +1,8 @@
 import { BodyScrollView } from '@/components/core/body-scroll-view'
 import { Stack } from 'expo-router'
 import { Typography, useThemeColor } from 'heroui-native'
-import type { JSX } from 'react'
 
-export default function DeadlinesTab(): JSX.Element {
+export default function DeadlinesTab() {
 	const themeColorForeground = useThemeColor('foreground')
 	return (
 		<>

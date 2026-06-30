@@ -1,7 +1,6 @@
-import { Card, Typography } from 'heroui-native'
-import type { JSX } from 'react'
-import { View } from 'react-native'
 import { withForm } from '@/components/form'
+import { Card, Typography } from 'heroui-native'
+import { View } from 'react-native'
 import { InterviewStep } from '../../interview-step'
 import { addApplicantFormOpts, toApplicantDraft } from '../wizard-form'
 
@@ -16,7 +15,7 @@ export const ConfirmStep = withForm({
 	props: {
 		onBack: (() => {}) as undefined | (() => void),
 	},
-	render: function ConfirmStepRender({ form, onBack }): JSX.Element {
+	render: function ConfirmStepRender({ form, onBack }) {
 		return (
 			<form.Subscribe selector={(s) => ({ values: s.values, isSubmitting: s.isSubmitting })}>
 				{({ values, isSubmitting }) => {
@@ -44,7 +43,7 @@ export const ConfirmStep = withForm({
 	},
 })
 
-function ReviewRow({ label, value }: { label: string; value: string }): JSX.Element {
+function ReviewRow({ label, value }: { label: string; value: string }) {
 	return (
 		<View className="gap-1">
 			<Typography.Paragraph color="muted" className="text-sm">

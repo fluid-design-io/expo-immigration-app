@@ -1,4 +1,3 @@
-import type { JSX } from 'react'
 import { withForm } from '@/components/form'
 import { InterviewStep } from '../../interview-step'
 import { addApplicantFormOpts, identitySectionSchema } from '../wizard-form'
@@ -13,7 +12,7 @@ export const ANumberStep = withForm({
 		onBack: (() => {}) as undefined | (() => void),
 		onAdvance: () => {},
 	},
-	render: function ANumberStepRender({ form, onBack, onAdvance }): JSX.Element {
+	render: function ANumberStepRender({ form, onBack, onAdvance }) {
 		return (
 			<form.FormGroup
 				name="identity"

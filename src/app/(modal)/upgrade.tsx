@@ -2,7 +2,6 @@ import { accountGateStore, useAccountGateRequest } from '@/components/account/ac
 import { InvestedProgressRecap } from '@/components/account/invested-progress-recap'
 import { UpgradeActions } from '@/components/account/upgrade-actions'
 import { useRouter } from 'expo-router'
-import type { JSX } from 'react'
 import { useEffect, useRef } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 
@@ -13,7 +12,7 @@ import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
  * account" action). Reuses the same shared recap + upgrade actions, so the
  * anonymous → credentialed link (and its data preservation) is identical.
  */
-export default function UpgradeModal(): JSX.Element {
+export default function UpgradeModal() {
 	const router = useRouter()
 	const request = useAccountGateRequest()
 	const settledRef = useRef(false)

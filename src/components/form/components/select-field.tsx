@@ -1,5 +1,4 @@
-import { Description, FieldError, Label, Select, TextField as HeroTextField } from 'heroui-native'
-import type { JSX } from 'react'
+import { Description, FieldError, TextField as HeroTextField, Label, Select } from 'heroui-native'
 import { useFieldContext } from '../hooks/form-context'
 import { fieldErrorText } from '../utils'
 
@@ -25,7 +24,7 @@ export default function SelectField({
 	description,
 	isRequired,
 	isDisabled,
-}: SelectFieldProps): JSX.Element {
+}: SelectFieldProps) {
 	const field = useFieldContext<string>()
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 	const error = fieldErrorText(field.state.meta.errors)

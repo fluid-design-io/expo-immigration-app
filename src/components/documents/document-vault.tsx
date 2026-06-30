@@ -1,9 +1,8 @@
+import type { Id } from '@/lib/api'
 import * as DocumentPicker from 'expo-document-picker'
 import { Button, Card, Spinner, Typography } from 'heroui-native'
-import type { JSX } from 'react'
 import { useState } from 'react'
 import { Alert, View } from 'react-native'
-import type { Id } from '@/lib/api'
 import {
 	type Document,
 	type DocumentType,
@@ -36,7 +35,7 @@ const TYPE_LABEL: Record<DocumentType, string> = {
  * see every stored version, and delete one. Wired to the Convex `documents`
  * functions and Convex's built-in file storage (ADR-0007).
  */
-export function DocumentVault({ applicantId }: { applicantId: Id<'applicants'> }): JSX.Element {
+export function DocumentVault({ applicantId }: { applicantId: Id<'applicants'> }) {
 	const documents = useDocuments(applicantId)
 	const generateUploadUrl = useGenerateUploadUrl()
 	const addDocument = useAddDocument()
@@ -86,9 +85,7 @@ export function DocumentVault({ applicantId }: { applicantId: Id<'applicants'> }
 				<Typography.Paragraph className="font-semibold">Upload a document</Typography.Paragraph>
 
 				<View className="gap-2">
-					<Typography.Paragraph className="text-sm font-medium">
-						Document type
-					</Typography.Paragraph>
+					<Typography.Paragraph className="text-sm font-medium">Document type</Typography.Paragraph>
 					<View className="flex-row flex-wrap gap-2">
 						{DOCUMENT_TYPES.map((option) => {
 							const selected = type === option.value
@@ -129,7 +126,7 @@ export function DocumentVault({ applicantId }: { applicantId: Id<'applicants'> }
 }
 
 /** One stored document in the vault, with its type, version, and a delete action. */
-function DocumentRow({ document }: { document: Document }): JSX.Element {
+function DocumentRow({ document }: { document: Document }) {
 	const deleteDocument = useDeleteDocument()
 	const [deleting, setDeleting] = useState(false)
 

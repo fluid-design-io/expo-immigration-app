@@ -1,5 +1,4 @@
 import { Typography } from 'heroui-native'
-import type { JSX } from 'react'
 import { View } from 'react-native'
 import type { InvestedProgress } from './account-gate-store'
 
@@ -11,7 +10,7 @@ const DEFAULT_DESCRIPTION =
  * Small, props-driven recap of invested effort shown above the upgrade actions.
  * Falls back to generic copy when a caller does not supply a recap.
  */
-export function InvestedProgressRecap({ recap }: { recap?: InvestedProgress }): JSX.Element {
+export function InvestedProgressRecap({ recap }: { recap?: InvestedProgress }) {
 	const title = recap?.title ?? DEFAULT_TITLE
 	const description = recap?.description ?? DEFAULT_DESCRIPTION
 	const highlights = recap?.highlights ?? []

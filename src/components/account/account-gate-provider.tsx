@@ -1,4 +1,4 @@
-import type { JSX, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import { accountGateStore, useAccountGateRequest } from './account-gate-store'
 import { UpgradeSheet } from './upgrade-sheet'
@@ -11,7 +11,7 @@ import { UpgradeSheet } from './upgrade-sheet'
  * falls back to navigating to the already-registered `/upgrade` modal route, so
  * the gate still works end-to-end either way.
  */
-export function AccountGateProvider({ children }: { children: ReactNode }): JSX.Element {
+export function AccountGateProvider({ children }: { children: ReactNode }) {
 	const request = useAccountGateRequest()
 
 	// Advertise this surface so `useRequireAccount()` prefers the in-place sheet

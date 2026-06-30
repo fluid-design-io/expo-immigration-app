@@ -1,5 +1,4 @@
 import { Button, Card, Label, Select, Separator, Typography } from 'heroui-native'
-import type { JSX } from 'react'
 import { useState } from 'react'
 import { Alert, View } from 'react-native'
 import { CaseStatusTimeline } from './case-status-timeline'
@@ -19,7 +18,7 @@ const FORM_TYPE_LABEL: Record<NonNullable<Case['formType']>, string> = {
  * history timeline, and an inline control to record a new status (which appends
  * to the timeline — ADR-0008, manual entry).
  */
-export function CaseCard({ case: theCase }: { case: Case }): JSX.Element {
+export function CaseCard({ case: theCase }: { case: Case }) {
 	const updateStatus = useUpdateCaseStatus()
 	const [nextStatus, setNextStatus] = useState<CaseStatusOption>(
 		theCase.currentStatus as CaseStatusOption,
@@ -89,10 +88,7 @@ export function CaseCard({ case: theCase }: { case: Case }): JSX.Element {
 						</Select.Content>
 					</Select.Portal>
 				</Select>
-				<Button
-					isDisabled={pending || nextStatus === theCase.currentStatus}
-					onPress={handleUpdate}
-				>
+				<Button isDisabled={pending || nextStatus === theCase.currentStatus} onPress={handleUpdate}>
 					<Button.Label>{pending ? 'Updating…' : 'Save status'}</Button.Label>
 				</Button>
 			</View>

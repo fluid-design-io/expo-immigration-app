@@ -1,6 +1,5 @@
 import { Link } from 'expo-router'
 import { ListGroup } from 'heroui-native'
-import type { JSX } from 'react'
 import type { Applicant, Relationship } from './applicants.data'
 
 const RELATIONSHIP_LABEL: Record<Relationship, string> = {
@@ -16,7 +15,7 @@ function applicantName(applicant: Applicant): string {
 	return fullName.length > 0 ? fullName : applicant.displayName
 }
 
-export function ApplicantCard({ applicant }: { applicant: Applicant }): JSX.Element {
+export function ApplicantCard({ applicant }: { applicant: Applicant }) {
 	const aNumber = applicant.profile?.aNumber
 	return (
 		<Link href={{ pathname: '/applicant/[id]', params: { id: applicant._id } }} asChild>

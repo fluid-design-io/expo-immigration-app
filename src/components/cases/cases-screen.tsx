@@ -1,6 +1,5 @@
 import { BodyScrollView } from '@/components/core/body-scroll-view'
 import { Button, Card, Spinner, Typography } from 'heroui-native'
-import type { JSX } from 'react'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { AddCaseForm } from './add-case-form'
@@ -13,7 +12,7 @@ import { useCases } from './cases.data'
  * the canonical status enum plus its history timeline. The receipt-entry form is
  * revealed via a CTA so it stays out of the way once cases exist.
  */
-export function CasesScreen(): JSX.Element {
+export function CasesScreen() {
 	const cases = useCases()
 	const [showForm, setShowForm] = useState(false)
 
@@ -30,7 +29,9 @@ export function CasesScreen(): JSX.Element {
 			) : cases.length === 0 ? (
 				showForm ? (
 					<Card className="gap-4 p-5">
-						<Typography.Paragraph className="font-semibold">Enter receipt number</Typography.Paragraph>
+						<Typography.Paragraph className="font-semibold">
+							Enter receipt number
+						</Typography.Paragraph>
 						<AddCaseForm onAdded={() => setShowForm(false)} />
 					</Card>
 				) : (

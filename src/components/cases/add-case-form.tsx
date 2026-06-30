@@ -1,6 +1,5 @@
 import { useAppForm } from '@/components/form'
 import { useToast } from 'heroui-native'
-import type { JSX } from 'react'
 import { Alert, View } from 'react-native'
 import { useCreateCase } from './cases.data'
 import { CASE_STATUS_OPTIONS, type CaseStatusOption, receiptFormSchema } from './cases.schema'
@@ -12,7 +11,7 @@ const STATUS_OPTIONS = CASE_STATUS_OPTIONS.map((status) => ({ value: status, lab
  * Receipt Number format with the shared Zod schema, then creates a Case seeded
  * with the chosen current status. Calls `onAdded` after a successful create.
  */
-export function AddCaseForm({ onAdded }: { onAdded?: () => void }): JSX.Element {
+export function AddCaseForm({ onAdded }: { onAdded?: () => void }) {
 	const createCase = useCreateCase()
 	const { toast } = useToast()
 

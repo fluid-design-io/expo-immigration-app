@@ -1,5 +1,4 @@
 import { Typography } from 'heroui-native'
-import type { JSX } from 'react'
 import { View } from 'react-native'
 import type { CaseHistoryEntry } from './cases.data'
 
@@ -15,11 +14,7 @@ function formatDate(iso: string): string {
  * A vertical status-history timeline (most recent first). The latest entry — the
  * case's current stage — is highlighted with an accent dot and bold label.
  */
-export function CaseStatusTimeline({
-	history,
-}: {
-	history: readonly CaseHistoryEntry[]
-}): JSX.Element {
+export function CaseStatusTimeline({ history }: { history: readonly CaseHistoryEntry[] }) {
 	if (history.length === 0) {
 		return (
 			<Typography.Paragraph color="muted" className="text-sm">

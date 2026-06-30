@@ -1,9 +1,8 @@
 import { CasesScreen } from '@/components/cases'
 import { Stack } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
-import type { JSX } from 'react'
 
-export default function FilingsTab(): JSX.Element {
+export default function FilingsTab() {
 	const themeColorForeground = useThemeColor('foreground')
 	return (
 		<>

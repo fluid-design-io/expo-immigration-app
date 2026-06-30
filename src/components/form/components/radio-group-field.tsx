@@ -1,5 +1,10 @@
-import { Description, FieldError, Label, RadioGroup, TextField as HeroTextField } from 'heroui-native'
-import type { JSX } from 'react'
+import {
+	Description,
+	FieldError,
+	TextField as HeroTextField,
+	Label,
+	RadioGroup,
+} from 'heroui-native'
 import { useFieldContext } from '../hooks/form-context'
 import { fieldErrorText } from '../utils'
 
@@ -23,7 +28,7 @@ export default function RadioGroupField({
 	description,
 	isRequired,
 	isDisabled,
-}: RadioGroupFieldProps): JSX.Element {
+}: RadioGroupFieldProps) {
 	const field = useFieldContext<string>()
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 	const error = fieldErrorText(field.state.meta.errors)

@@ -1,7 +1,6 @@
 import { authClient } from '@/lib/auth-client'
 import { Button, Input, Label, Separator, TextField, Typography } from 'heroui-native'
 import { SocialAuthButton, type SocialAuthButtonProvider } from 'heroui-native-pro'
-import type { JSX } from 'react'
 import { useState } from 'react'
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'
 
@@ -19,7 +18,7 @@ const SOCIAL_PROVIDERS: SocialProvider[] = ['google', 'apple', 'github']
  * entry wall — it's an opt-in destination for people who already have an
  * account. The sign-up toggle is retained for now.
  */
-export default function SignInScreen(): JSX.Element {
+export default function SignInScreen() {
 	const [mode, setMode] = useState<Mode>('sign-in')
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')

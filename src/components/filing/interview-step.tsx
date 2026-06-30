@@ -1,9 +1,10 @@
+import { featherIcon } from '@/components/styled-icon'
+import { Stack } from 'expo-router'
 import { Avatar, Button, Popover, Separator, Typography } from 'heroui-native'
-import type { JSX, ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardStickyView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { featherIcon } from '@/components/styled-icon'
 
 const BackIcon = featherIcon('chevron-left')
 const HelpIcon = featherIcon('help-circle')
@@ -61,28 +62,19 @@ export function InterviewStep({
 	backLabel = 'Back',
 	isNextPending = false,
 	children,
-}: InterviewStepProps): JSX.Element {
+}: InterviewStepProps) {
 	const insets = useSafeAreaInsets()
 
 	return (
-		<View className="flex-1 bg-background">
+		<>
 			<KeyboardAwareScrollView
 				className="flex-1"
-				contentContainerClassName="gap-6 px-5 pt-4 pb-2"
 				keyboardDismissMode="on-drag"
 				keyboardShouldPersistTaps="handled"
 				contentInsetAdjustmentBehavior="automatic"
-				bottomOffset={insets.bottom + 64}
+				contentContainerClassName="pb-safe-8 px-5"
 			>
 				<View className="min-h-9 flex-row items-center justify-between">
-					{onBack ? (
-						<Button variant="ghost" size="sm" className="-ml-2" onPress={onBack}>
-							<BackIcon size={18} className="text-foreground" />
-							<Button.Label>{backLabel}</Button.Label>
-						</Button>
-					) : (
-						<View />
-					)}
 					{help != null ? <HelpTrigger title={helpTitle} content={help} /> : <View />}
 				</View>
 
@@ -106,28 +98,21 @@ export function InterviewStep({
 					</Button>
 				</View>
 			</KeyboardStickyView>
-		</View>
+		</>
 	)
 }
 
 /** The "?" help affordance: a round trigger that opens a popover with the copy. */
-function HelpTrigger({ title, content }: { title?: string; content: ReactNode }): JSX.Element {
+function HelpTrigger({ title, content }: { title?: string; content: ReactNode }) {
+	const [isOpen, setIsOpen] = useState(false)
 	return (
-		<Popover>
-			<Popover.Trigger accessibilityLabel="Help">
-				<View className="h-9 w-9 items-center justify-center rounded-full bg-muted">
-					<HelpIcon size={18} className="text-foreground" />
-				</View>
-			</Popover.Trigger>
+		<Popover isOpen={isOpen} onOpenChange={setIsOpen} presentation="bottom-sheet">
+			<Stack.Toolbar placement="right">
+				<Stack.Toolbar.Button icon="questionmark.circle" onPress={() => setIsOpen(true)} />
+			</Stack.Toolbar>
 			<Popover.Portal>
-				<Popover.Overlay />
-				<Popover.Content
-					presentation="popover"
-					placement="bottom"
-					align="end"
-					width={300}
-					className="border border-border gap-2 p-4"
-				>
+				<Popover.Overlay className="bg-black/15" />
+				<Popover.Content presentation="bottom-sheet">
 					<Popover.Arrow />
 					{title ? <Popover.Title>{title}</Popover.Title> : null}
 					{typeof content === 'string' ? (

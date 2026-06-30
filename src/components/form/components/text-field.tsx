@@ -1,5 +1,4 @@
-import { Description, FieldError, Input, Label, TextField as HeroTextField } from 'heroui-native'
-import type { JSX } from 'react'
+import { Description, FieldError, TextField as HeroTextField, Input, Label } from 'heroui-native'
 import type { TextInputProps } from 'react-native'
 import { KeyboardController } from 'react-native-keyboard-controller'
 import { useFieldContext } from '../hooks/form-context'
@@ -33,7 +32,7 @@ export default function TextField({
 	isDisabled,
 	focusNextOnSubmit,
 	...inputProps
-}: TextFieldProps): JSX.Element {
+}: TextFieldProps) {
 	const field = useFieldContext<string>()
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 	const error = fieldErrorText(field.state.meta.errors)

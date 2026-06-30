@@ -1,4 +1,3 @@
-import type { JSX } from 'react'
 import { View } from 'react-native'
 import { withFieldGroup } from '../form'
 
@@ -10,7 +9,7 @@ import { withFieldGroup } from '../form'
  */
 export const AddressFieldGroup = withFieldGroup({
 	defaultValues: { line1: '', city: '', state: '', postalCode: '' },
-	render: function AddressFieldGroupRender({ group }): JSX.Element {
+	render: function AddressFieldGroupRender({ group }) {
 		return (
 			<View className="gap-4">
 				<group.AppField name="line1">

@@ -1,5 +1,4 @@
-import { Description, FieldError, Label, TextArea, TextField as HeroTextField } from 'heroui-native'
-import type { JSX } from 'react'
+import { Description, FieldError, TextField as HeroTextField, Label, TextArea } from 'heroui-native'
 import type { TextInputProps } from 'react-native'
 import { useFieldContext } from '../hooks/form-context'
 import { fieldErrorText } from '../utils'
@@ -18,7 +17,7 @@ export default function TextAreaField({
 	isRequired,
 	isDisabled,
 	...inputProps
-}: TextAreaFieldProps): JSX.Element {
+}: TextAreaFieldProps) {
 	const field = useFieldContext<string>()
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 	const error = fieldErrorText(field.state.meta.errors)

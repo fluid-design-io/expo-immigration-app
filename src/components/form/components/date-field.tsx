@@ -1,6 +1,5 @@
 import { Description, FieldError, Label } from 'heroui-native'
 import { Calendar, DatePicker, type DatePickerOption } from 'heroui-native-pro'
-import type { JSX } from 'react'
 import { useFieldContext } from '../hooks/form-context'
 import { fieldErrorText } from '../utils'
 
@@ -35,7 +34,7 @@ export default function DateField({
 	description,
 	isRequired,
 	isDisabled,
-}: DateFieldProps): JSX.Element {
+}: DateFieldProps) {
 	const field = useFieldContext<string>()
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 	const error = fieldErrorText(field.state.meta.errors)

@@ -1,7 +1,6 @@
 import { AddressFieldGroup, useAppForm } from '@/components/form'
 import { router } from 'expo-router'
 import { Separator, Typography, useToast } from 'heroui-native'
-import type { JSX } from 'react'
 import { Alert, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardStickyView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -14,7 +13,7 @@ import { useUpdateApplicantProfile } from './applicants.data'
  * inside a KeyboardAwareScrollView while the Save action stays sticky above the
  * keyboard (KeyboardStickyView), so it is always reachable.
  */
-export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): JSX.Element {
+export function ApplicantProfileForm({ applicant }: { applicant: Applicant }) {
 	const updateProfile = useUpdateApplicantProfile()
 	const insets = useSafeAreaInsets()
 	const { toast } = useToast()

@@ -1,6 +1,5 @@
 import { Description, FieldError, Label } from 'heroui-native'
 import { NumberField as HeroNumberField } from 'heroui-native-pro'
-import type { JSX } from 'react'
 import { useFieldContext } from '../hooks/form-context'
 import { fieldErrorText } from '../utils'
 
@@ -25,7 +24,7 @@ export default function NumberField({
 	maxValue,
 	step,
 	formatOptions,
-}: NumberFieldProps): JSX.Element {
+}: NumberFieldProps) {
 	const field = useFieldContext<number>()
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 	const error = fieldErrorText(field.state.meta.errors)
