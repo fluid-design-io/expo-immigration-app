@@ -1,7 +1,6 @@
 # Immigration App — Product Requirements Document
 
 > Working title: TBD (see Open Questions). US/USCIS, iOS + Android.
-> Status: **DRAFT — needs validation**. Generated 2026-06-22 via `/prp-prd`.
 
 ## Problem Statement
 
@@ -82,6 +81,8 @@ First-time or complex family/employment petitioners, asylum seekers needing lega
 | Must | Case tracker (receipt #, status, history) | Proven demand (Lawfully); core anxiety reliever |
 | Must | Deadline calendar + **push reminders** | The wedge — auto-extension removal makes timing critical |
 | Must | Account + data deletion/export | Store-review requirement + GDPR/CCPA |
+| Must | Composition & UI Design | HeroUI Native/Pro for the app, follow the /heroui-pro-design-taste skill, use the /react-composition-structure skill for component, file and folder structure |
+| Should | Server-driven types | Instead of declaring one-off types in the client, we can infer the types from the Convex schema and use them in the client. [Reference](https://docs.convex.dev/understanding/best-practices/typescript#inferring-types-from-validators) |
 | Should | Profile/document autofill across applications | Makes the 2nd filing near one-tap (north-star driver) |
 | Should | Document-expiry reminders (passport/EAD/GC) | Drives proactive return visits |
 | Could | USCIS case-status API integration | Real-time tracking if feasible (else manual) |
@@ -94,11 +95,13 @@ The **retention spine**: account → reusable profile → document vault → I-9
 
 ### User Flow (critical path to value)
 
-1. Sign up → quick profile (name, status, current document + expiry date).
-2. App immediately shows the **deadline** (e.g., "EAD expires in 142 days — file by [date]") → sets reminders.
-3. User starts the renewal wizard → profile/vault pre-fills most fields → review → export/submit.
-4. User adds the receipt number → tracker shows status + history; reminders continue.
-5. Renewal approved → vault updated → next renewal is pre-loaded. (Return loop.)
+1. Sign In, or:
+2. Choose a form to file (I-90 or I-765) → quick Personal Information (name, status) → Upload documents → Review and Sign Up/In.
+3. Use Better Auth anonymously to sign in and create a profile as we already got user's email and other basic information from the form, so we can backfill the profile with the information from the form.
+4. App immediately shows the **deadline** (e.g., "EAD expires in 142 days — file by [date]") → sets reminders.
+5. User starts the renewal wizard → PI/vault pre-fills most fields → review → export/submit.
+6. User adds the receipt number → tracker shows status + history; reminders continue.
+7. Renewal approved → vault updated → next renewal is pre-loaded. (Return loop.)
 
 ---
 
@@ -110,37 +113,28 @@ The **retention spine**: account → reusable profile → document vault → I-9
 - **Client**: Expo SDK 56 / RN 0.85 / React 19, Expo Router native tabs, HeroUI Native Pro.
 - **Backend/API/Storage**: Convex.
 - **Form logic**: Tanstack Form with Zod validation.
+- **Convex**: For the server runtime, check [Convex Docs](https://docs.convex.dev/functions/runtimes) as some packages might need to switch to node runtime.
+- **Decisions & vocabulary**: architecture decisions are recorded in `docs/adr/` (ADR-0001…0009); the project's domain glossary / ubiquitous language is in `CONTEXT.md`.
 
 ---
 
-## Implementation Phases
+## Phase Details
 
-<!-- STATUS: pending | in-progress | complete -->
-
-| # | Phase | Description | Status | Parallel | Depends | PRP Plan |
-|---|-------|-------------|--------|----------|---------|----------|
-| 1 | Foundations | Auth, reusable profile, document vault, navigation skeleton, dev build, EAS env | pending | - | - | - |
-| 2 | Backend core | Convex: schema, functions, API | pending | with 1 | - | - |
-| 3 | Filing wizard | Dynamic I-90 + I-765 multi-step forms w/ profile/vault autofill | pending | - | 1, 2 | - |
-| 4 | Tracker | Case CRUD, status history, (spike) USCIS API integration | pending | with 5 | 2 | - |
-| 5 | Calendar + reminders | Deadlines UI, Convex cron, Expo push pipeline | pending | with 4 | 2 | - |
-| 6 | Harden + ship | Tests, a11y, security/PII review, store submission, OTA | pending | - | 3, 4, 5 | - |
-
-### Phase Details
-
-**Phase 1: Foundations** — Goal: a returning user can sign in and has a profile + vault. Scope: Better Auth, `users`/`applicant_profile`/`documents` UI, tabs/stacks, dev build, EAS env. Success: account persists; profile + a document survive re-login.
+**Phase 1: Foundations** — Goal: a returning user can sign in and has a profile (preferences) + vault. Scope: Better Auth, `users`/`applicant_profile`/`documents` UI, tabs/stacks, dev build, EAS env. Success: account persists; profile + a document survive re-login.
 
 **Phase 2: Backend core** — Goal:Convex schema, major Convex functions, API. Success: protected endpoint works; a document uploads via signed URL and re-downloads.
 
-**Phase 3: Form Primitives** - Goal: create reusable form primitives that binds HeroUI Native/Pro components with Tanstack Form and Zod validation. Ultilize patterns such as [Form Groups](https://tanstack.com/form/latest/docs/framework/react/guides/form-groups) and Form Composition (https://tanstack.com/form/latest/docs/framework/react/guides/form-composition), a guide on wrapping with UI lib can be found [here](https://tanstack.com/form/latest/docs/framework/react/guides/ui-libraries).
+**Phase 3: Form Primitives** - Goal: create reusable form primitives that binds HeroUI Native/Pro components with Tanstack Form and Zod validation. Ultilize patterns such as [Form Groups](https://tanstack.com/form/latest/docs/framework/react/guides/form-groups) and [Form Composition](https://tanstack.com/form/latest/docs/framework/react/guides/form-composition), a guide on wrapping with UI lib can be found [here](https://tanstack.com/form/latest/docs/framework/react/guides/ui-libraries).
 
-**Phase 4: Filing wizard** — Goal: complete an I-90 or I-765 renewal end-to-end. Scope: JSONB-driven multi-step form, autosave drafts, profile/vault pre-fill, review/export. Success: a renewal completes with most fields pre-filled from profile.
+**Phase 4: Filing wizard** — Goal: complete an I-90 or I-765 renewal end-to-end. Success: a renewal completes with most fields pre-filled from profile with pdf-lib.
 
-**Phase 5: Tracker** — Goal: see case status in one place. Scope: receipt entry, status + history, USCIS API spike. Success: a case shows current status + history.
+**Phase 5: Internationalization** - Goal: internationalize the app to support multiple languages, with expo-localization + react-i18next library, [reference](https://docs.expo.dev/guides/localization/#getting-the-users-language).
 
-**Phase 6: Calendar + reminders** — Goal: never miss a renewal window. Scope: deadlines from documents/cases, calendar UI, Convex cron, Expo push. Success: a device receives a scheduled due-date reminder.
+**Phase 6: Tracker** — Goal: see case status in one place. Scope: receipt entry, status + history. Success: a case shows current status + history.
 
-**Phase 7: Harden + ship** — Goal: safe and in the stores. Scope: 80% coverage, a11y, security/PII review, account deletion, store assets, EAS submit + Update. Success: approved on both stores; OTA channel live.
+**Phase 7: Calendar + reminders** — Goal: never miss a renewal window. Scope: deadlines from documents/cases, calendar UI, Convex cron, [Expo push](https://www.convex.dev/components/push-notifications). Success: a device receives a scheduled due-date reminder.
+
+**Phase 8: Harden + ship** — Goal: safe and in the stores. Scope: 80% coverage, a11y, security/PII review, account deletion, store assets, EAS submit + Update. Success: approved on both stores; OTA channel live.
 
 ---
 
@@ -152,9 +146,10 @@ The **retention spine**: account → reusable profile → document vault → I-9
 | v1 filing journeys | I-90 + I-765 renewals | N-400, I-130, H-1B | Highest recurrence → best fit for retention thesis; timing now critical |
 | North-star metric | Retention / repeat use | Activation, engagement, revenue | Directly tests the core thesis |
 | Business model | Free for now | Freemium, subscription, per-form | Prove the retention loop before monetizing; free undercuts paid filers |
-| Backend | Convex | None | User choice; verified Convex path |
-| Auth | Better Auth (self-hosted) | None | Owns PII (sensitive immigration data); Expo support |
-| Dynamic form storage | JSONB on `applications` | None | JSONB fits variable per-type forms |
+| Localization Library | expo-localization(primitives) + react-i18next | next-intl | User choice; verified expo-localization + i18n library path |
+| Backend | Convex | Railway/Hono monorepo (abandoned) | User choice; verified Convex path — see ADR-0001 |
+| Auth | Convex Better Auth | None | Owns PII (sensitive immigration data); Expo support — see ADR-0002 |
+| Dynamic form storage | Typed discriminated validators on `applications`, keyed by form type | JSONB (not available on Convex) | Convex is a document DB with no JSONB; typed validators preserve server-driven types — see ADR-0005 |
 
 ---
 
