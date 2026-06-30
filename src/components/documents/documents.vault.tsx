@@ -1,3 +1,4 @@
+import { useRequireAccount } from '@/components/account'
 import type { Id } from '@/lib/api'
 import * as DocumentPicker from 'expo-document-picker'
 import { Button, Card, ListGroup, Separator, Spinner, Typography } from 'heroui-native'
@@ -38,10 +39,25 @@ export function DocumentVault({ applicantId }: { applicantId: Id<'applicants'> }
 	const documents = useDocuments(applicantId)
 	const generateUploadUrl = useGenerateUploadUrl()
 	const addDocument = useAddDocument()
+	const requireAccount = useRequireAccount()
 	const [type, setType] = useState<DocumentType>('passport')
 	const [uploading, setUploading] = useState(false)
+	const [parked, setParked] = useState(false)
 
 	async function handleUpload(): Promise<void> {
+		// Gate behind a credentialed account: a file must bind to a recoverable
+		// identity, and no bytes leave the device while anonymous (ADR-0007, #6).
+		// A successful upgrade resolves true and auto-resumes the upload; a dismiss
+		// parks it ("sign in to finish") and keeps any anonymous data.
+		const ok = await requireAccount({
+			title: 'Create an account to save documents',
+			highlights: ['Keep your uploaded documents', 'Recover your data on any device'],
+		})
+		if (!ok) {
+			setParked(true)
+			return
+		}
+		setParked(false)
 		setUploading(true)
 		try {
 			const result = await DocumentPicker.getDocumentAsync({
@@ -105,6 +121,11 @@ export function DocumentVault({ applicantId }: { applicantId: Id<'applicants'> }
 				<Button isDisabled={uploading} onPress={handleUpload}>
 					<Button.Label>{uploading ? 'Uploading…' : 'Upload document'}</Button.Label>
 				</Button>
+				{parked ? (
+					<Typography.Paragraph color="muted" className="text-sm">
+						Sign in to finish — your document isn&rsquo;t uploaded yet. Tap Upload to continue.
+					</Typography.Paragraph>
+				) : null}
 			</Card>
 
 			<View className="gap-3">
