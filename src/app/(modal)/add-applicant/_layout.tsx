@@ -11,7 +11,7 @@ export default function AddApplicantLayout() {
 	const layoutStyle = useLayoutStyle()
 	return (
 		<AddApplicantProvider>
-			<Stack screenOptions={{ ...layoutStyle, headerShown: true, headerTitle: 'Add yourself' }} />
+			<Stack screenOptions={{ ...layoutStyle, headerShown: true, headerTitle: 'Add Applicant' }} />
 		</AddApplicantProvider>
 	)
 }

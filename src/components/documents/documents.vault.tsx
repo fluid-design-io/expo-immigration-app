@@ -1,7 +1,7 @@
 import type { Id } from '@/lib/api'
 import * as DocumentPicker from 'expo-document-picker'
-import { Button, Card, Spinner, Typography } from 'heroui-native'
-import { useState } from 'react'
+import { Button, Card, ListGroup, Separator, Spinner, Typography } from 'heroui-native'
+import { Fragment, useState } from 'react'
 import { Alert, View } from 'react-native'
 import {
 	useAddDocument,
@@ -117,7 +117,14 @@ export function DocumentVault({ applicantId }: { applicantId: Id<'applicants'> }
 						No documents yet. Upload one to get started.
 					</Typography.Paragraph>
 				) : (
-					documents.map((document) => <DocumentRow key={document._id} document={document} />)
+					<ListGroup>
+						{documents.map((document, index) => (
+							<Fragment key={document._id}>
+								<DocumentRow document={document} />
+								{index !== documents.length - 1 && <Separator />}
+							</Fragment>
+						))}
+					</ListGroup>
 				)}
 			</View>
 		</View>
@@ -143,19 +150,19 @@ function DocumentRow({ document }: { document: Document }) {
 	}
 
 	return (
-		<Card className="flex-row items-center justify-between gap-3 p-4">
-			<View className="gap-1">
-				<Typography.Paragraph className="font-semibold">
-					{TYPE_LABEL[document.type]}
-				</Typography.Paragraph>
-				<Typography.Paragraph color="muted" className="text-sm">
+		<ListGroup.Item>
+			<ListGroup.ItemContent>
+				<ListGroup.ItemTitle>{TYPE_LABEL[document.type]}</ListGroup.ItemTitle>
+				<ListGroup.ItemDescription>
 					Version {document.version}
 					{document.expiryDate ? ` · Expires ${document.expiryDate}` : ''}
-				</Typography.Paragraph>
-			</View>
-			<Button variant="ghost" isDisabled={deleting} onPress={handleDelete}>
-				<Button.Label>{deleting ? 'Deleting…' : 'Delete'}</Button.Label>
-			</Button>
-		</Card>
+				</ListGroup.ItemDescription>
+			</ListGroup.ItemContent>
+			<ListGroup.ItemSuffix>
+				<Button size="sm" variant="ghost" isDisabled={deleting} onPress={handleDelete}>
+					<Button.Label>{deleting ? 'Deleting…' : 'Delete'}</Button.Label>
+				</Button>
+			</ListGroup.ItemSuffix>
+		</ListGroup.Item>
 	)
 }

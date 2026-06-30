@@ -3,7 +3,7 @@
  * `string[]` for function validators or StandardSchema issue objects (with a
  * `.message`) for Zod — this handles both shapes.
  */
-export function fieldErrorText(errors: ReadonlyArray<unknown>): string | undefined {
+export function fieldErrorText(errors: readonly unknown[]): string | undefined {
 	for (const err of errors) {
 		if (typeof err === 'string' && err.length > 0) {
 			return err

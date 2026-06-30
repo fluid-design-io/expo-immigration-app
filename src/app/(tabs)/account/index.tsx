@@ -1,6 +1,7 @@
 import { BodyScrollView } from '@/components/core'
+import { authClient } from '@/lib/auth-client'
 import { Stack } from 'expo-router'
-import { Typography, useThemeColor } from 'heroui-native'
+import { Button, Typography, useThemeColor } from 'heroui-native'
 
 export default function AccountTab() {
 	const themeColorForeground = useThemeColor('foreground')
@@ -20,6 +21,7 @@ export default function AccountTab() {
 				<Typography.Paragraph color="muted">
 					Settings, sign-in, and data export will live here.
 				</Typography.Paragraph>
+				<Button onPress={() => authClient.signOut()}>Sign Out</Button>
 			</BodyScrollView>
 		</>
 	)
