@@ -187,9 +187,33 @@ function isKnownCategory(value: string): boolean {
 }
 
 /**
+ * Merge a saved draft section over its prefilled section, field by field. A draft
+ * value wins ONLY when it actually holds something — an empty default string must
+ * never clobber a profile prefill, so a partial draft never drops prefilled data
+ * (drafts persist every section, untouched ones as `''`).
+ */
+function mergeSection<T extends Record<string, string>>(
+	prefilled: T,
+	draft: Partial<T> | undefined,
+): T {
+	if (!draft) {
+		return prefilled
+	}
+	const merged = { ...prefilled }
+	for (const key of Object.keys(prefilled) as (keyof T)[]) {
+		const value = draft[key]
+		if (typeof value === 'string' && value !== '') {
+			merged[key] = value as T[keyof T]
+		}
+	}
+	return merged
+}
+
+/**
  * Build the form's initial values: start from the self applicant's saved profile
  * (autofill), then let any previously saved draft win — merged per section so a
- * partial draft never drops a prefilled field. Restores the wizard on reload.
+ * partial or empty-defaulted draft never drops a prefilled field. Restores the
+ * wizard on reload.
  */
 export function buildI765InitialValues(
 	savedDraft: Partial<I765Values> | null | undefined,
@@ -217,10 +241,10 @@ export function buildI765InitialValues(
 	}
 
 	return {
-		reasonForFiling: { ...prefilled.reasonForFiling, ...savedDraft.reasonForFiling },
-		eligibility: { ...prefilled.eligibility, ...savedDraft.eligibility },
-		stemDetails: { ...prefilled.stemDetails, ...savedDraft.stemDetails },
-		aboutYou: { ...prefilled.aboutYou, ...savedDraft.aboutYou },
+		reasonForFiling: mergeSection(prefilled.reasonForFiling, savedDraft.reasonForFiling),
+		eligibility: mergeSection(prefilled.eligibility, savedDraft.eligibility),
+		stemDetails: mergeSection(prefilled.stemDetails, savedDraft.stemDetails),
+		aboutYou: mergeSection(prefilled.aboutYou, savedDraft.aboutYou),
 	}
 }
 

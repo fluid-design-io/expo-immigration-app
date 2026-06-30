@@ -3,6 +3,7 @@ import { convexTest } from 'convex-test'
 import { expect, test } from 'vitest'
 import {
 	aboutYouSectionSchema,
+	buildI765InitialValues,
 	eligibilitySectionSchema,
 	getVisibleSteps,
 	i765FormOpts,
@@ -158,4 +159,27 @@ test('nextVisibleStepId advances past a now-hidden current step (no Continue no-
 	expect(
 		nextVisibleStepId(values({ eligibility: { eligibilityCategory: 'c08' } }), 'stemDetails'),
 	).toBe('aboutYou')
+})
+
+test('buildI765InitialValues keeps profile prefills when a draft holds empty defaults', () => {
+	const profile = {
+		givenName: 'Maria',
+		familyName: 'Gomez',
+		aNumber: 'A012345678',
+		eligibilityCategory: 'c09',
+	}
+
+	// A draft autosaved with empty default strings (e.g. before the profile
+	// existed) must NOT clobber the profile prefill with ''.
+	const fromEmptyDraft = buildI765InitialValues(i765FormOpts.defaultValues, profile)
+	expect(fromEmptyDraft.aboutYou.givenName).toBe('Maria')
+	expect(fromEmptyDraft.eligibility.eligibilityCategory).toBe('c09')
+
+	// A non-empty draft value still wins, while empty sibling fields keep the prefill.
+	const fromPartialDraft = buildI765InitialValues(
+		{ ...i765FormOpts.defaultValues, aboutYou: { givenName: 'Mary', familyName: '', aNumber: '' } },
+		profile,
+	)
+	expect(fromPartialDraft.aboutYou.givenName).toBe('Mary') // draft override wins
+	expect(fromPartialDraft.aboutYou.familyName).toBe('Gomez') // empty draft field keeps prefill
 })
