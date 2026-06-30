@@ -1,3 +1,4 @@
-// Public surface of the applicants module — the route imports only from here.
+// Public surface of the applicants module — routes import only from here.
 export { ApplicantsScreen } from './applicants-screen'
-export type { Applicant, Relationship } from './applicants.data'
+export { ApplicantProfileScreen } from './applicant-profile-screen'
+export type { Applicant, ApplicantProfile, Relationship } from './applicants.data'

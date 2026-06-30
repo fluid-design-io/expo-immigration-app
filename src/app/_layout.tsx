@@ -35,6 +35,7 @@ const AppContent = (): JSX.Element => {
 		<Stack screenOptions={layoutStyle}>
 			<Stack.Protected guard={isAuthenticated}>
 				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+				<Stack.Screen name="applicant/[id]" options={{ headerShown: true, title: 'Profile' }} />
 			</Stack.Protected>
 			<Stack.Protected guard={!isAuthenticated}>
 				<Stack.Screen name="auth" options={{ headerShown: false }} />
