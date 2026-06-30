@@ -1,9 +1,35 @@
 import { BodyScrollView } from '@/components/core'
+import { useFilings } from '@/components/filing/i765'
+import { router } from 'expo-router'
 import { Button, Card, Spinner, Typography } from 'heroui-native'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { Case } from './case'
 import { useCases } from './cases.data'
+
+/**
+ * Launches the I-765 (EAD renewal) Interview from the Filings tab. Shows
+ * "Continue" instead of "Start" when an in-progress draft already exists, which
+ * the wizard restores from Convex (issue #8).
+ */
+function StartI765Card() {
+	const filings = useFilings()
+	const hasDraft = filings?.some((filing) => filing.formType === 'i765') ?? false
+
+	return (
+		<Card className="gap-3 p-5">
+			<Typography.Paragraph className="font-semibold">
+				Renew your work permit (Form I-765)
+			</Typography.Paragraph>
+			<Typography.Paragraph color="muted" className="text-sm">
+				Answer a few questions and we’ll save your progress as you go.
+			</Typography.Paragraph>
+			<Button onPress={() => router.push('/file-i765')}>
+				<Button.Label>{hasDraft ? 'Continue I-765 renewal' : 'Start I-765 renewal'}</Button.Label>
+			</Button>
+		</Card>
+	)
+}
 
 /**
  * The Filings tab body: track submitted filings as Cases. Enter a USCIS Receipt
@@ -20,6 +46,8 @@ export function CasesScreen() {
 			<Typography.Paragraph color="muted">
 				Track a submitted filing by its USCIS Receipt Number and follow its status.
 			</Typography.Paragraph>
+
+			<StartI765Card />
 
 			{cases === undefined ? (
 				<View className="items-center py-8">

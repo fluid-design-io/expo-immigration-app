@@ -10,6 +10,7 @@ import {
 	caseHistoryEntryValidator,
 	caseStatusValidator,
 } from './model/cases'
+import { filingFormTypeValidator } from './model/filings'
 
 // The Better Auth component manages its own tables in an isolated component
 // namespace, so no auth tables are needed here. Application tables below are
@@ -59,4 +60,19 @@ export default defineSchema({
 		currentStatus: caseStatusValidator,
 		history: v.array(caseHistoryEntryValidator),
 	}).index('by_ownerId', ['ownerId']),
+
+	// A Filing is an in-progress form Interview (ADR-0013). v1 keeps a single
+	// I-765 (EAD renewal) draft per account holder: `draft` holds the wizard's
+	// per-section answers, stored opaquely (`v.any()`) while the wizard shape is
+	// still settling (issue #8 tracer), and `updatedAt` powers a "last saved"
+	// hint. The one draft per (owner, formType) is fetched via
+	// `by_ownerId_and_formType`; `by_ownerId` lists all of an owner's filings.
+	filings: defineTable({
+		ownerId: v.string(),
+		formType: filingFormTypeValidator,
+		draft: v.any(),
+		updatedAt: v.number(),
+	})
+		.index('by_ownerId', ['ownerId'])
+		.index('by_ownerId_and_formType', ['ownerId', 'formType']),
 })
