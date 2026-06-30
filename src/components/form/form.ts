@@ -1,5 +1,10 @@
 import { createFormHook } from '@tanstack/react-form'
+import DateField from './components/date-field'
+import NumberField from './components/number-field'
+import RadioGroupField from './components/radio-group-field'
+import SelectField from './components/select-field'
 import SubmitButton from './components/submit-button'
+import SwitchField from './components/switch-field'
 import TextAreaField from './components/text-area-field'
 import TextField from './components/text-field'
 import { fieldContext, formContext } from './hooks/form-context'
@@ -13,6 +18,11 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
 	fieldComponents: {
 		TextField,
 		TextAreaField,
+		SelectField,
+		RadioGroupField,
+		NumberField,
+		DateField,
+		SwitchField,
 	},
 	formComponents: {
 		SubmitButton,
