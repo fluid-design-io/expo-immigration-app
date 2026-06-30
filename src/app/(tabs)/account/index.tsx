@@ -1,4 +1,4 @@
-import { BodyScrollView } from '@/components/core/body-scroll-view'
+import { BodyScrollView } from '@/components/core'
 import { Stack } from 'expo-router'
 import { Typography, useThemeColor } from 'heroui-native'
 

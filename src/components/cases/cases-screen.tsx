@@ -1,4 +1,4 @@
-import { BodyScrollView } from '@/components/core/body-scroll-view'
+import { BodyScrollView } from '@/components/core'
 import { Button, Card, Spinner, Typography } from 'heroui-native'
 import { useState } from 'react'
 import { View } from 'react-native'

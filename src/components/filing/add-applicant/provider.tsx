@@ -1,7 +1,4 @@
-import {
-	useCreateApplicant,
-	useUpdateApplicantProfile,
-} from '@/components/applicants/applicants.data'
+import { useCreateApplicant, useUpdateApplicantProfile } from '@/components/applicants'
 import { useAppForm } from '@/components/form'
 import { revalidateLogic } from '@tanstack/react-form'
 import { router } from 'expo-router'
