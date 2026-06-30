@@ -5,7 +5,7 @@ import type { JSX } from 'react'
 import { Alert, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardStickyView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { profileFormSchema } from '../../../convex/lib/profile-shape'
+import { profileFormSchema } from '../../../convex/lib/profileShape'
 import type { Applicant } from './applicants.data'
 import { useUpdateApplicantProfile } from './applicants.data'
 

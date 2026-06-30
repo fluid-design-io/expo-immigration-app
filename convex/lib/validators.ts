@@ -1,6 +1,6 @@
 import { zodToConvex } from 'convex-helpers/server/zod4'
 import { type Infer, v } from 'convex/values'
-import { applicantProfileStorage } from './profile-shape'
+import { applicantProfileStorage } from './profileShape'
 
 /** How an applicant relates to the account holder (see ADR-0009). */
 export const relationshipValidator = v.union(

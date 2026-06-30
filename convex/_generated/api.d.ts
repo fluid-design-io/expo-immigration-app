@@ -13,6 +13,7 @@ import type * as auth from "../auth.js";
 import type * as documents from "../documents.js";
 import type * as http from "../http.js";
 import type * as lib_auth from "../lib/auth.js";
+import type * as lib_profileShape from "../lib/profileShape.js";
 import type * as lib_validators from "../lib/validators.js";
 import type * as model_applicants from "../model/applicants.js";
 import type * as todos from "../todos.js";
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   documents: typeof documents;
   http: typeof http;
   "lib/auth": typeof lib_auth;
+  "lib/profileShape": typeof lib_profileShape;
   "lib/validators": typeof lib_validators;
   "model/applicants": typeof model_applicants;
   todos: typeof todos;
