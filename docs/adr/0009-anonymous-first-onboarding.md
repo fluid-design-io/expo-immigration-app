@@ -1,0 +1,15 @@
+# Anonymous-first onboarding; require account upgrade to complete a filing
+
+Onboarding lets a person fill their profile and first filing under an anonymous identity (Better Auth anonymous plugin) so they invest effort before hitting any signup wall, maximizing activation. Account upgrade to email or social login is **required at the Review / complete-filing step** — the natural commitment moment, matching the PRD flow "Review and Sign Up/In" — before the filing can be exported/submitted. The anonymous user's data is backfilled into the upgraded account via `onLinkAccount`.
+
+## Why upgrade is required at completion, not optional
+
+An anonymous-only account is not recoverable across devices and has no verifiable identity, which would break the Phase 1 "profile survives re-login" criterion and leave the GDPR/CCPA export/deletion requirements without a verifiable subject. Requiring upgrade exactly when the user completes a filing preserves both activation (effort first) and recoverability/deletability (identity captured before any sensitive PII leaves the device anonymously).
+
+## Risks / fallback
+
+The Better Auth anonymous plugin has known open issues on Convex (`get-convex/better-auth#180`, `better-auth#5824`) — verify these are resolved/workable before relying on it. If blocked, fall back to a sign-up-first flow.
+
+## Consequences
+
+The anonymous → credentialed account-linking flow (profile-preserving) is required work for Phase 1, and sensitive document storage ([ADR-0007](./0007-document-vault-stores-files-versioned.md)) should be gated behind the upgraded identity.
