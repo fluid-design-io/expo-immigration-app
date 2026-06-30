@@ -6,6 +6,8 @@ import {
 	eligibilitySectionSchema,
 	getVisibleSteps,
 	i765FormOpts,
+	i765FullSchema,
+	nextVisibleStepId,
 	stemDetailsSectionSchema,
 	type I765Values,
 } from '../src/components/filing/i765/i765.wizard-form'
@@ -122,4 +124,38 @@ test('per-step schemas accept valid sections and reject invalid ones', () => {
 			aNumber: 'A012345678',
 		}).success,
 	).toBe(true)
+})
+
+test('i765FullSchema requires STEM details only for the STEM OPT category', () => {
+	const valid = values({
+		reasonForFiling: { reasonForFiling: 'renewal' },
+		eligibility: { eligibilityCategory: 'c3c' },
+		stemDetails: { degreeLevel: 'masters', sevisNumber: 'N0012345678' },
+		aboutYou: { givenName: 'Maria', familyName: 'Gomez', aNumber: 'A012345678' },
+	})
+
+	// (c)(3)(C) with valid STEM details passes the final submit schema...
+	expect(i765FullSchema.safeParse(valid).success).toBe(true)
+	// ...but reaching Review for (c)(3)(C) with empty STEM details must fail
+	// (the gap BugBot flagged: direct/stack nav past the hidden-when-skipped step).
+	expect(
+		i765FullSchema.safeParse({ ...valid, stemDetails: { degreeLevel: '', sevisNumber: '' } })
+			.success,
+	).toBe(false)
+	// A non-STEM category never requires STEM details — the step is skipped.
+	expect(
+		i765FullSchema.safeParse({
+			...valid,
+			eligibility: { eligibilityCategory: 'c08' },
+			stemDetails: { degreeLevel: '', sevisNumber: '' },
+		}).success,
+	).toBe(true)
+})
+
+test('nextVisibleStepId advances past a now-hidden current step (no Continue no-op)', () => {
+	// On the STEM step after the category changed away from (c)(3)(C), STEM is no
+	// longer visible — the next step is the one after STEM's position: aboutYou.
+	expect(
+		nextVisibleStepId(values({ eligibility: { eligibilityCategory: 'c08' } }), 'stemDetails'),
+	).toBe('aboutYou')
 })

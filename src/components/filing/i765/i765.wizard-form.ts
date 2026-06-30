@@ -87,13 +87,28 @@ export const i765FullSchema = z.object({
 		.refine((s) => eligibilitySectionSchema.safeParse(s).success, {
 			message: 'Choose your eligibility category',
 		}),
-	// Lenient branch — no refine. The STEM step is only shown for (c)(3)(C).
+	// Branch field — kept string-typed; the `.superRefine` below requires it ONLY
+	// for the STEM OPT category, so a skipped step never blocks submit.
 	stemDetails: z.object({ degreeLevel: z.string(), sevisNumber: z.string() }),
 	aboutYou: z
 		.object({ givenName: z.string(), familyName: z.string(), aNumber: z.string() })
 		.refine((s) => aboutYouSectionSchema.safeParse(s).success, {
 			message: 'Add your legal name and A-Number',
 		}),
+}).superRefine((values, ctx) => {
+	// STEM details are required ONLY for the STEM OPT category — this mirrors the
+	// getVisibleSteps branch, so a skipped step never blocks submit, but a shown
+	// one cannot reach Review empty/invalid (e.g. via direct/stack navigation).
+	if (
+		isStemCategory(values.eligibility.eligibilityCategory) &&
+		!stemDetailsSectionSchema.safeParse(values.stemDetails).success
+	) {
+		ctx.addIssue({
+			code: 'custom',
+			message: 'Add your STEM degree level and SEVIS ID',
+			path: ['stemDetails'],
+		})
+	}
 })
 
 /** Per-section default values — the keys are the `form.FormGroup name`s. */
@@ -146,7 +161,14 @@ export function nextVisibleStepId(
 ): I765StepId | undefined {
 	const visible = getVisibleSteps(values)
 	const index = visible.indexOf(current)
-	return index === -1 ? undefined : visible[index + 1]
+	if (index !== -1) {
+		return visible[index + 1]
+	}
+	// `current` is no longer visible (e.g. the STEM step after the category changed
+	// away from (c)(3)(C)) — advance to the first visible step after its canonical
+	// position so Continue never no-ops.
+	const canonicalIndex = I765_STEP_IDS.indexOf(current)
+	return visible.find((id) => I765_STEP_IDS.indexOf(id) > canonicalIndex)
 }
 
 /** The fields prefilled from the self applicant's saved profile (CONTEXT.md autofill). */
