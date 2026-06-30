@@ -7,16 +7,20 @@ export default function TabsLayout(): JSX.Element {
 	return (
 		<NativeTabs {...tabBarStyle} sidebarAdaptable>
 			<NativeTabs.Trigger name="index">
-				<NativeTabs.Trigger.Icon sf="house.fill" md="home" />
-				<NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+				<NativeTabs.Trigger.Icon sf="calendar.badge.clock" md="event" />
+				<NativeTabs.Trigger.Label>Deadlines</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
-			<NativeTabs.Trigger name="applicants">
-				<NativeTabs.Trigger.Icon sf="person.2.fill" md="group" />
-				<NativeTabs.Trigger.Label>Applicants</NativeTabs.Trigger.Label>
+			<NativeTabs.Trigger name="filings">
+				<NativeTabs.Trigger.Icon sf="doc.text.fill" md="description" />
+				<NativeTabs.Trigger.Label>Filings</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
-			<NativeTabs.Trigger name="explore">
-				<NativeTabs.Trigger.Icon sf="safari.fill" md="explore" />
-				<NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
+			<NativeTabs.Trigger name="vault">
+				<NativeTabs.Trigger.Icon sf="lock.doc.fill" md="folder" />
+				<NativeTabs.Trigger.Label>Vault</NativeTabs.Trigger.Label>
+			</NativeTabs.Trigger>
+			<NativeTabs.Trigger name="account">
+				<NativeTabs.Trigger.Icon sf="person.crop.circle" md="account_circle" />
+				<NativeTabs.Trigger.Label>Account</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
 		</NativeTabs>
 	)

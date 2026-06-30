@@ -36,6 +36,11 @@ const AppContent = (): JSX.Element => {
 			<Stack.Protected guard={isAuthenticated}>
 				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 				<Stack.Screen name="applicant/[id]" options={{ headerShown: true, title: 'Profile' }} />
+				{/* Root-level modal slots present above the tab bar. Stub for later slices. */}
+				<Stack.Screen
+					name="upgrade"
+					options={{ presentation: 'modal', headerShown: true, title: 'Account upgrade' }}
+				/>
 			</Stack.Protected>
 			<Stack.Protected guard={!isAuthenticated}>
 				<Stack.Screen name="auth" options={{ headerShown: false }} />
