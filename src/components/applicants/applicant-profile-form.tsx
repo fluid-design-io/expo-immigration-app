@@ -1,26 +1,13 @@
 import { AddressFieldGroup, useAppForm } from '@/components/form'
-import { Separator, Typography } from 'heroui-native'
+import { router } from 'expo-router'
+import { Separator, Typography, useToast } from 'heroui-native'
 import type { JSX } from 'react'
 import { Alert, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardStickyView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { z } from 'zod'
+import { profileFormSchema } from '../../../convex/lib/profile-shape'
 import type { Applicant } from './applicants.data'
 import { useUpdateApplicantProfile } from './applicants.data'
-
-const profileSchema = z.object({
-	givenName: z.string().min(1, 'First name is required'),
-	familyName: z.string().min(1, 'Last name is required'),
-	aNumber: z.string(),
-	dateOfBirth: z.string(),
-	eligibilityCategory: z.string(),
-	mailingAddress: z.object({
-		line1: z.string(),
-		city: z.string(),
-		state: z.string(),
-		postalCode: z.string(),
-	}),
-})
 
 /**
  * Edit an applicant's reusable profile using the form suite. The fields scroll
@@ -30,6 +17,7 @@ const profileSchema = z.object({
 export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): JSX.Element {
 	const updateProfile = useUpdateApplicantProfile()
 	const insets = useSafeAreaInsets()
+	const { toast } = useToast()
 	const profile = applicant.profile
 
 	const form = useAppForm({
@@ -46,11 +34,16 @@ export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): J
 				postalCode: profile?.mailingAddress?.postalCode ?? '',
 			},
 		},
-		validators: { onSubmit: profileSchema },
+		validators: { onSubmit: profileFormSchema },
 		onSubmit: async ({ value }) => {
 			try {
 				await updateProfile({ applicantId: applicant._id, profile: value })
-				Alert.alert('Saved', 'Profile updated.')
+				toast.show({
+					label: 'Profile updated',
+					variant: 'success',
+					placement: 'bottom',
+				})
+				router.back()
 			} catch (err) {
 				Alert.alert('Could not save', err instanceof Error ? err.message : 'Please try again.')
 			}
@@ -61,7 +54,7 @@ export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): J
 		<form.AppForm>
 			<KeyboardAwareScrollView
 				className="flex-1"
-				contentContainerClassName="gap-1 px-5 pb-2"
+				contentContainerClassName="gap-5 px-5 pb-2"
 				keyboardDismissMode="on-drag"
 				keyboardShouldPersistTaps="handled"
 				contentInsetAdjustmentBehavior="automatic"
@@ -107,9 +100,7 @@ export function ApplicantProfileForm({ applicant }: { applicant: Applicant }): J
 					)}
 				</form.AppField>
 				<form.AppField name="dateOfBirth">
-					{(field) => (
-						<field.TextField label="Date of birth" placeholder="YYYY-MM-DD" focusNextOnSubmit />
-					)}
+					{(field) => <field.DateField label="Date of birth" placeholder="YYYY-MM-DD" />}
 				</form.AppField>
 				<form.AppField name="eligibilityCategory">
 					{(field) => (
