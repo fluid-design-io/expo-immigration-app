@@ -16,6 +16,13 @@ export const saveDraft = mutation({
 	},
 	handler: async (ctx, args) => {
 		const ownerId = await requireOwnerId(ctx)
+		// Read-then-upsert is safe under Convex's serializable OCC (every mutation is
+		// a transaction): loadOwnedFiling reads the by_ownerId_and_formType index
+		// range, so a concurrent first-save inserting into that same range conflicts
+		// and retries the loser, which then re-reads the now-existing draft and
+		// patches it. At most one draft per (owner, formType) survives, so the
+		// `.unique()` in loadOwnedFiling never sees a duplicate. (Same guarantee
+		// documents.addDocument relies on for per-(applicant, type) versions.)
 		const existing = await loadOwnedFiling(ctx, ownerId, args.formType)
 		const updatedAt = Date.now()
 
