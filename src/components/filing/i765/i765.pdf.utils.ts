@@ -112,8 +112,9 @@ export function applyI765Fields(form: PDFForm, values: I765Values): void {
 	setText(I765_PDF_FIELDS.familyName, values.aboutYou.familyName)
 	setText(I765_PDF_FIELDS.givenName, values.aboutYou.givenName)
 	// The A-Number box is a 9-digit comb (the "A-" is preprinted on the form), so
-	// strip the leading "A" and any separators before filling.
-	setText(I765_PDF_FIELDS.aNumber, values.aboutYou.aNumber.replace(/\D/g, ''))
+	// strip the leading "A" and any separators, then left-pad to 9 digits so an
+	// 8-digit A-Number keeps its leading zero (profile validation allows A + 8-9).
+	setText(I765_PDF_FIELDS.aNumber, values.aboutYou.aNumber.replace(/\D/g, '').padStart(9, '0'))
 
 	const reasonBox = I765_REASON_CHECKBOX[values.reasonForFiling.reasonForFiling]
 	if (reasonBox) check(reasonBox)

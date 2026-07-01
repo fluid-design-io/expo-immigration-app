@@ -48,6 +48,15 @@ test('applyI765Fields maps the answers onto the real USCIS form fields', async (
 	expect(form.getCheckBox(I765_REASON_CHECKBOX.initial).isChecked()).toBe(false)
 })
 
+test('applyI765Fields left-pads an 8-digit A-Number to nine (leading zero kept)', async () => {
+	const pdf = await PDFDocument.load(TEMPLATE, { ignoreEncryption: true })
+	applyI765Fields(
+		pdf.getForm(),
+		values({ aboutYou: { givenName: 'A', familyName: 'B', aNumber: 'A12345678' } }),
+	)
+	expect(pdf.getForm().getTextField(I765_PDF_FIELDS.aNumber).getText()).toBe('012345678')
+})
+
 test('fillI765Pdf returns a valid, flattened, watermarked PDF', async () => {
 	const bytes = await fillI765Pdf(TEMPLATE, complete)
 	expect(bytes.byteLength).toBeGreaterThan(1000)
