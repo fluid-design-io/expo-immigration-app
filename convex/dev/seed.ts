@@ -4,6 +4,11 @@ import type { ActionCtx } from '../_generated/server'
 import { internal } from '../_generated/api'
 import { requireOwnerId } from '../lib/auth'
 import { deleteOwnerData } from '../model/ownerData'
+import type { FormType } from '../shared/applicationShapes'
+import { interviewStepKeys } from '../shared/interviewSteps'
+
+const completeAllSteps = (formType: FormType): Record<string, boolean> =>
+	Object.fromEntries(interviewStepKeys[formType].map((key) => [key, true]))
 
 // Walkthrough-phase demo data (REARCHITECTURE.md "Resolved Decisions" #12).
 // The family demo makes every Home / Documents / Journey Hub / Review state
@@ -219,7 +224,7 @@ export const insertDemoData = internalMutation({
 			formType: 'i765',
 			applicationKind: 'renewal',
 			status: 'draft',
-			currentStepKey: 'mailing-address',
+			currentStepKey: 'country-of-birth',
 			completedStepCount: 2,
 			totalStepCount: 7,
 			updatedAt: now,
@@ -278,15 +283,7 @@ export const insertDemoData = internalMutation({
 				},
 				form: { cardExpirationDate: isoDateFromNow(8 * 365) },
 			},
-			stepCompletion: {
-				'legal-name': true,
-				'date-of-birth': true,
-				'country-of-birth': true,
-				'a-number': true,
-				'mailing-address': true,
-				'card-details': true,
-				review: true,
-			},
+			stepCompletion: completeAllSteps('i90'),
 			updatedAt: now,
 		})
 		await ctx.db.insert('applicationDocuments', {
@@ -333,15 +330,7 @@ export const insertDemoData = internalMutation({
 				},
 				form: { replacementReason: 'lost' },
 			},
-			stepCompletion: {
-				'legal-name': true,
-				'date-of-birth': true,
-				'country-of-birth': true,
-				'a-number': true,
-				'mailing-address': true,
-				'replacement-reason': true,
-				review: true,
-			},
+			stepCompletion: completeAllSteps('i765'),
 			updatedAt: now,
 		})
 		await ctx.db.insert('applicationDocuments', {
@@ -397,7 +386,7 @@ export const insertDemoData = internalMutation({
 				},
 				form: {},
 			},
-			stepCompletion: { review: true },
+			stepCompletion: completeAllSteps('i765'),
 			updatedAt: now,
 		})
 		await ctx.db.insert('applicationDocuments', {
@@ -456,7 +445,7 @@ export const insertDemoData = internalMutation({
 				},
 				form: { replacementReason: 'damaged' },
 			},
-			stepCompletion: { review: true },
+			stepCompletion: completeAllSteps('i90'),
 			updatedAt: now,
 		})
 		await ctx.db.insert('entitlements', {

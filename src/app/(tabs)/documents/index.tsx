@@ -1,6 +1,6 @@
-import { BodyScrollView } from '@/components/core'
+import { DocumentsScreen } from '@/components/documents'
 import { router, Stack } from 'expo-router'
-import { Typography, useThemeColor } from 'heroui-native'
+import { useThemeColor } from 'heroui-native'
 
 export default function DocumentsTab() {
 	const themeColorForeground = useThemeColor('foreground')
@@ -19,11 +19,7 @@ export default function DocumentsTab() {
 				<Stack.Toolbar.Button icon="person.fill" onPress={() => router.push('/account')} />
 			</Stack.Toolbar>
 
-			<BodyScrollView contentContainerClassName="gap-3 pt-4">
-				<Typography.Paragraph color="muted">
-					No document content is wired in this PoC shell.
-				</Typography.Paragraph>
-			</BodyScrollView>
+			<DocumentsScreen />
 		</>
 	)
 }

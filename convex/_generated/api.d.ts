@@ -9,12 +9,17 @@
  */
 
 import type * as account from "../account.js";
+import type * as applicants from "../applicants.js";
+import type * as applications from "../applications.js";
 import type * as auth from "../auth.js";
 import type * as dev_seed from "../dev/seed.js";
+import type * as home from "../home.js";
 import type * as http from "../http.js";
 import type * as lib_auth from "../lib/auth.js";
+import type * as model_applications from "../model/applications.js";
 import type * as model_ownerData from "../model/ownerData.js";
 import type * as shared_applicationShapes from "../shared/applicationShapes.js";
+import type * as shared_interviewSteps from "../shared/interviewSteps.js";
 
 import type {
   ApiFromModules,
@@ -24,12 +29,17 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   account: typeof account;
+  applicants: typeof applicants;
+  applications: typeof applications;
   auth: typeof auth;
   "dev/seed": typeof dev_seed;
+  home: typeof home;
   http: typeof http;
   "lib/auth": typeof lib_auth;
+  "model/applications": typeof model_applications;
   "model/ownerData": typeof model_ownerData;
   "shared/applicationShapes": typeof shared_applicationShapes;
+  "shared/interviewSteps": typeof shared_interviewSteps;
 }>;
 
 /**
