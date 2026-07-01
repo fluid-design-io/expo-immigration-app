@@ -32,6 +32,29 @@ function StartI765Card() {
 }
 
 /**
+ * Launches the I-90 (green-card renewal/replacement) Interview from the Filings
+ * tab. Shows "Continue" when an in-progress I-90 draft already exists (issue #11).
+ */
+function StartI90Card() {
+	const filings = useFilings()
+	const hasDraft = filings?.some((filing) => filing.formType === 'i90') ?? false
+
+	return (
+		<Card className="gap-3 p-5">
+			<Typography.Paragraph className="font-semibold">
+				Renew or replace your green card (Form I-90)
+			</Typography.Paragraph>
+			<Typography.Paragraph color="muted" className="text-sm">
+				Answer a few questions and we’ll save your progress as you go.
+			</Typography.Paragraph>
+			<Button onPress={() => router.push('/file-i90')}>
+				<Button.Label>{hasDraft ? 'Continue I-90 application' : 'Start I-90 application'}</Button.Label>
+			</Button>
+		</Card>
+	)
+}
+
+/**
  * The Filings tab body: track submitted filings as Cases. Enter a USCIS Receipt
  * Number (ADR-0008, manual entry), then see each case's current status against
  * the canonical status enum plus its history timeline. The receipt-entry form is
@@ -48,6 +71,7 @@ export function CasesScreen() {
 			</Typography.Paragraph>
 
 			<StartI765Card />
+			<StartI90Card />
 
 			{cases === undefined ? (
 				<View className="items-center py-8">

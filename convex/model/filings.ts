@@ -1,17 +1,17 @@
-import { v } from 'convex/values'
+import { type Infer, v } from 'convex/values'
 import type { Doc } from '../_generated/dataModel'
 import type { MutationCtx, QueryCtx } from '../_generated/server'
 
 /**
- * The USCIS forms that have an Interview wizard. v1 ships only the I-765 (EAD
- * renewal) tracer (ADR-0003); this is a `v.union` of literals so adding I-90
- * later is a one-line change that keeps every `filings` query owner-scoped by
- * `formType` without touching the index shape.
+ * The USCIS forms that have an Interview wizard: the I-765 (EAD renewal) tracer
+ * (ADR-0003) and the I-90 (green-card renewal/replacement, issue #11). A
+ * `v.union` of literals keeps every `filings` query owner-scoped by `formType`
+ * without touching the index shape.
  */
-export const filingFormTypeValidator = v.literal('i765')
+export const filingFormTypeValidator = v.union(v.literal('i765'), v.literal('i90'))
 
-/** The TS type for a filing's form type (e.g. `'i765'`). */
-export type FilingFormType = (typeof filingFormTypeValidator)['value']
+/** The TS type for a filing's form type (`'i765' | 'i90'`). */
+export type FilingFormType = Infer<typeof filingFormTypeValidator>
 
 /**
  * Load the caller's single draft for a given form type, or `null` when none

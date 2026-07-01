@@ -30,6 +30,7 @@ the values refresh automatically.
 """
 
 import json
+import os
 import re
 import sys
 from typing import Optional
@@ -46,6 +47,11 @@ def _pdf_date_to_iso(raw) -> Optional[str]:
 
 
 def main(src: str, dst: str, meta_path: str) -> None:
+    # Infer the form from the output filename (e.g. "i-90.pdf" → slug "i-90",
+    # formType "i90"), so the meta is correct for whichever form is normalized.
+    form_slug = os.path.basename(dst).rsplit(".", 1)[0]
+    form_type = form_slug.replace("-", "")
+
     with pikepdf.open(src) as pdf:  # opens and decrypts (empty user password)
         info = dict(pdf.docinfo) if pdf.docinfo else {}
         acro = pdf.Root.get("/AcroForm")
@@ -65,12 +71,12 @@ def main(src: str, dst: str, meta_path: str) -> None:
     expires = re.search(rb"Expires\s*([0-9]{2}/[0-9]{2}/[0-9]{4})", body)
 
     meta = {
-        "formType": "i765",
-        "title": str(info.get("/Title", "Form I-765, Application For Employment Authorization")),
+        "formType": form_type,
+        "title": str(info.get("/Title", form_slug.upper())),
         "omb": omb.group(1).decode() if omb else None,
         "ombExpires": expires.group(1).decode() if expires else None,
         "sourceRevised": _pdf_date_to_iso(info.get("/CreationDate")),
-        "source": "https://www.uscis.gov/sites/default/files/document/forms/i-765.pdf",
+        "source": f"https://www.uscis.gov/sites/default/files/document/forms/{form_slug}.pdf",
         "note": (
             "Decrypted + XFA-stripped from the USCIS original for on-device "
             "pdf-lib rendering; page geometry unchanged."
