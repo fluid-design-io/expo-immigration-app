@@ -19,3 +19,10 @@ One form per step (loses cross-step state — rejected); **one shared form + `Fo
 - The per-section schemas are `.pick()`/`.required()` projections of the **shared Zod single-source shapes** (the `zodToConvex` decision) — no re-declaring field shape.
 - Verify `form.FormGroup` is exposed by the installed `@tanstack/react-form@^1.33.0` (the example tracks `main`); fallback: gate Next on subscribed field validity + `validateField`.
 - **Paywall only the final `onSubmit`** (output export); every step stays free; re-edits reopen the same host against persisted answers.
+
+## Amended (2026-07-01)
+
+- Language: "Filing" as the unit noun above reads as **Application** (CONTEXT.md); "each Filing's Interview" = each Application's Interview.
+- Folder shape: per-form wizard modules live under `src/components/interview/` (e.g. `interview/i90/`, `interview/i765/`) — the legacy `filing/` module names are retired.
+- Persistence: each `onGroupSubmit` (Next) also calls `saveApplicationStep({ applicationId, stepKey, stepData })` — idempotent per (applicationId, stepKey) — updating the draft and patching the small progress summary (`currentStepKey`, completed/total counts, monotonic `updatedAt`) on `applications`. There is no autosave.
+- The lenient full-form pass is **free** and fires at Review-reach: it gates the watermarked Preview and triggers person-fact promotion ([ADR-0014](./0014-draft-only-answers-promote-at-review.md)). The paywall applies strictly downstream, at obtaining the Filing Package (ADR-0011) — "paywall only the final `onSubmit`" reads as "the output-export action is the only paid step," not "reaching Review is paid."

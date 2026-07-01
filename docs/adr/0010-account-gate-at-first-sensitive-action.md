@@ -19,3 +19,7 @@ Gate at Review (ADR-0009 — more accumulated effort, but later identity capture
 - Anonymous-created data (profile, applicant, filing draft, Document **metadata**) backfills via `onLinkAccount`; Document **files** persist only post-upgrade (ADR-0007).
 - Push reminders are gated: a push token must bind to a recoverable account, not a throwaway anonymous identity.
 - The known Better Auth anonymous-plugin-on-Convex risks noted in ADR-0009 still apply and must be verified before relying on this flow.
+
+## Amended (2026-07-01)
+
+Re-checked for the ground-up rebuild: the contextual gate at the first sensitive action **survives unchanged** (document upload, obtaining the Filing Package, push reminders). "Start filing" entry copy and the silent anonymous session stay. During the **walkthrough phase**, the gate UI exists but is non-blocking (stubbed) and RevenueCat/IAP is not installed; enforcement lands in the PII/security and IAP phases. Language: Filing → Application per CONTEXT.md.

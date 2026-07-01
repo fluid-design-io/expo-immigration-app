@@ -13,3 +13,7 @@ The Better Auth anonymous plugin has known open issues on Convex (`get-convex/be
 ## Consequences
 
 The anonymous → credentialed account-linking flow (profile-preserving) is required work for Phase 1, and sensitive document storage ([ADR-0007](./0007-document-vault-stores-files-versioned.md)) should be gated behind the upgraded identity.
+
+## Amended (2026-07-01)
+
+Read this ADR through [ADR-0010](./0010-account-gate-at-first-sensitive-action.md): the "upgrade required at the Review / complete-filing step" clause was already superseded by the contextual gate at the first sensitive action, and the 2026-07-01 rebuild re-confirmed that gate. What still holds here: the anonymous-first principle, the silent anonymous session, and the `onLinkAccount` backfill. Language: "filing" above reads as *Application* (the unit) per CONTEXT.md.

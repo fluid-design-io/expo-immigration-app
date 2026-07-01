@@ -13,3 +13,7 @@ Deep-link to myUSCIS (opens, no pre-fill); pre-filled PDF for print-and-mail (ch
 ## Consequences
 
 Build the `pdf-lib` field maps and current-edition templates regardless. The user signs the form themselves and the preparer section is left blank or clearly disclosed, per [ADR-0004](./0004-information-only-no-legal-advice.md).
+
+## Amended (2026-07-01)
+
+Deep-link/PDF mechanics unchanged. Data source corrected per [ADR-0014](./0014-draft-only-answers-promote-at-review.md): the PDF is filled from the **application's own draft** plus the vault — not from the shared applicant profile. The profile's role is seeding a *new* application's draft (autofill at creation), after which the draft is the render source. Language: Application is the unit noun per CONTEXT.md.

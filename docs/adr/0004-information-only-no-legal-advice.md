@@ -5,3 +5,7 @@ The product is strictly an informational self-help tool — it pre-fills forms a
 ## Consequences
 
 This boundary governs copy, feature scope, the preparer-section handling, and onboarding consent across the entire product. It is a constraint invisible in the code yet load-bearing on every user-facing surface.
+
+## Amended (2026-07-01)
+
+Substance unchanged. Language: "every filing" above reads as "every Application" — Application is the unit noun per CONTEXT.md.

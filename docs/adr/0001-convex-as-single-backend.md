@@ -9,3 +9,7 @@ Railway + Hono REST monorepo (abandoned after one commit); Convex single app (ch
 ## Consequences
 
 Variable per-form data must use typed validators, not JSONB (see [ADR-0005](./0005-structured-per-form-data-not-jsonb.md)); the filing wizard must autosave server-side because there is no full offline mode.
+
+## Amended (2026-07-01)
+
+The autosave clause is superseded: there is **no autosave**. Every **Next** action validates the current step and persists it via an idempotent `saveApplicationStep` mutation (see REARCHITECTURE.md "Save Semantics"). The online-first consequence stands.

@@ -16,3 +16,7 @@ Faithful form-shape replication (low value, high abandonment — rejected); **qu
 - Each step carries friendly question copy + help text in a **step descriptor**; the bound field's `name` still targets the real form-field path, so the data model remains a faithful field-level mirror of the official form.
 - Requires a reusable **InterviewStep** shell (avatar, big heading, help sheet, Back/Next, canAdvance) and per-form step descriptors with branching (`getVisibleSteps`).
 - The literal USCIS form is shown only as the watermarked **Preview** / final output (ADR-0006/0011), not as the data-entry surface.
+
+## Amended (2026-07-01)
+
+Mechanics unchanged. Language: the Interview prepares an **Application** (CONTEXT.md); "filing" above reads as the act of filing or the Filing Package. Reaching Review also triggers person-fact promotion per [ADR-0014](./0014-draft-only-answers-promote-at-review.md).
