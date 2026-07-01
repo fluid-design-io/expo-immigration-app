@@ -1,4 +1,4 @@
-import { JourneyHubScreen } from '@/components/applications'
+import { JourneyHubScreen } from '@/screens/applications'
 import type { Id } from '@convex/_generated/dataModel'
 import { Stack, useLocalSearchParams } from 'expo-router'
 

@@ -1,4 +1,4 @@
-import { DocumentsScreen } from '@/components/documents'
+import { DocumentsScreen } from '@/screens/documents'
 import { router, Stack } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
 

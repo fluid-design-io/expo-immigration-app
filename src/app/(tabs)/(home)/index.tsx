@@ -1,4 +1,4 @@
-import { HomeScreen } from '@/components/home'
+import { HomeScreen } from '@/screens/home'
 import { router, Stack } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
 

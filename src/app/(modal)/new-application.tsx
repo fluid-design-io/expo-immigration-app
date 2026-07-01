@@ -1,4 +1,4 @@
-import { NewApplicationScreen } from '@/components/applications'
+import { NewApplicationScreen } from '@/screens/applications'
 
 export default function NewApplicationRoute() {
 	return <NewApplicationScreen />
