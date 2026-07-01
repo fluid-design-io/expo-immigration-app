@@ -4,6 +4,7 @@ import { Alert, View } from 'react-native'
 import { useI90Form } from './i90.context'
 import { missingRequiredFields } from './i90.pdf.utils'
 import { I90_FORM_META, openI90Preview } from './i90.preview'
+import { isI751Guardrail } from './i90.wizard-form'
 
 /**
  * The free, watermarked preview action on the I-90 Review step (issue #11). Runs
@@ -18,6 +19,16 @@ export function I90PreviewButton() {
 
 	async function handlePreview(): Promise<void> {
 		const values = form.state.values
+		// A conditional resident renewing must file Form I-751 — never render an
+		// I-90 for them, even if this Review is reached via stack history after the
+		// answers changed (the completeness check alone wouldn't catch it).
+		if (isI751Guardrail(values)) {
+			Alert.alert(
+				'File Form I-751 instead',
+				'A conditional (2-year) resident renewing files Form I-751 to remove conditions — Form I-90 doesn’t apply, so there’s no I-90 to preview.',
+			)
+			return
+		}
 		const missing = missingRequiredFields(values)
 		if (missing.length > 0) {
 			Alert.alert(
