@@ -11,7 +11,12 @@ export default function AddApplicantLayout() {
 	const layoutStyle = useLayoutStyle()
 	return (
 		<AddApplicantProvider>
-			<Stack screenOptions={{ ...layoutStyle, headerShown: true, headerTitle: 'Add Applicant' }} />
+			<Stack screenOptions={{ ...layoutStyle, headerShown: true }}>
+				<Stack.Screen name="index" options={{ title: 'Your name' }} />
+				<Stack.Screen name="a-number" options={{ title: 'A-Number' }} />
+				<Stack.Screen name="card" options={{ title: 'Your card' }} />
+				<Stack.Screen name="confirm" options={{ title: 'Confirm' }} />
+			</Stack>
 		</AddApplicantProvider>
 	)
 }

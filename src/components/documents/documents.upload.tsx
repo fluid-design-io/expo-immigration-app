@@ -1,4 +1,5 @@
 import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system/legacy'
 import { Button, Card, RadioGroup, Typography } from 'heroui-native'
 import { useState } from 'react'
 import { Alert, View } from 'react-native'
@@ -57,18 +58,19 @@ export function DocumentUpload({ applicantId }: { applicantId: Id<'applicants'> 
 
 			// 1. Mint a one-time upload URL from Convex.
 			const uploadUrl = await generateUploadUrl()
-			// 2. Read the picked file as a Blob and POST its bytes to that URL.
-			const blob = await (await fetch(file.uri)).blob()
-			const uploadResponse = await fetch(uploadUrl, {
-				method: 'POST',
+			// 2. Stream the picked file's bytes straight from disk. RN/Hermes can't
+			// build a Blob from a file URI ("Creating blobs from 'ArrayBuffer'…"), so
+			// upload with expo-file-system instead of fetch(uri).blob().
+			const uploadResponse = await FileSystem.uploadAsync(uploadUrl, file.uri, {
+				httpMethod: 'POST',
+				uploadType: FileSystem.FileSystemUploadType.BINARY_CONTENT,
 				headers: { 'Content-Type': file.mimeType ?? 'application/octet-stream' },
-				body: blob,
 			})
-			if (!uploadResponse.ok) {
+			if (uploadResponse.status < 200 || uploadResponse.status >= 300) {
 				throw new Error(`Upload failed (${uploadResponse.status})`)
 			}
 			// 3. Convex returns the new storage id; record it as a document version.
-			const { storageId } = (await uploadResponse.json()) as { storageId: Id<'_storage'> }
+			const { storageId } = JSON.parse(uploadResponse.body) as { storageId: Id<'_storage'> }
 			await addDocument({ applicantId, type, storageId })
 		} catch (err) {
 			Alert.alert(

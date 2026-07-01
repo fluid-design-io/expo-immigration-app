@@ -11,7 +11,14 @@ export default function FileI90Layout() {
 	const layoutStyle = useLayoutStyle()
 	return (
 		<I90Provider>
-			<Stack screenOptions={{ ...layoutStyle, headerShown: true, headerTitle: 'I-90 Renewal' }} />
+			<Stack screenOptions={{ ...layoutStyle, headerShown: true }}>
+				<Stack.Screen name="index" options={{ title: 'Renew or replace' }} />
+				<Stack.Screen name="residency" options={{ title: 'Resident type' }} />
+				<Stack.Screen name="replacement-reason" options={{ title: 'Replacement reason' }} />
+				<Stack.Screen name="i751-guardrail" options={{ title: 'Form I-751' }} />
+				<Stack.Screen name="about-you" options={{ title: 'About you' }} />
+				<Stack.Screen name="review" options={{ title: 'Review' }} />
+			</Stack>
 		</I90Provider>
 	)
 }
