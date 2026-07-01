@@ -10,7 +10,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "dev.uing.immigrationrenewalhelp",
-      "appleTeamId": "F8V4932HJN"
+      "appleTeamId": "F8V4932HJN",
+      "infoPlist": {
+        "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera to capture photos and videos.",
+        "NSMicrophoneUsageDescription": "$(PRODUCT_NAME) needs access to your Microphone to record audio for video recordings."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +22,11 @@
         "backgroundColor": "#ffffff"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "dev.uing.immigrationrenewalhelp"
+      "package": "dev.uing.immigrationrenewalhelp",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
       "expo-router",
@@ -43,7 +51,14 @@
       "@react-native-vector-icons/lucide",
       "expo-sharing",
       "expo-asset",
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "$(PRODUCT_NAME) needs access to your Face ID to use Face ID."
+        }
+      ],
+      "expo-widgets"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -1,11 +1,11 @@
 import { ConvexBetterAuthProvider, type AuthClient } from '@convex-dev/better-auth/react'
 import {
-	Fredoka_400Regular,
-	Fredoka_500Medium,
-	Fredoka_600SemiBold,
-	Fredoka_700Bold,
+	Montserrat_400Regular,
+	Montserrat_500Medium,
+	Montserrat_600SemiBold,
+	Montserrat_700Bold,
 	useFonts,
-} from '@expo-google-fonts/fredoka'
+} from '@expo-google-fonts/montserrat'
 import { ConvexReactClient } from 'convex/react'
 import { StatusBar } from 'expo-status-bar'
 import { HeroUINativeProvider } from 'heroui-native'
@@ -62,10 +62,10 @@ function AppContent({ children }: { children: React.ReactNode }) {
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	const [fontsLoaded] = useFonts({
-		Fredoka_400Regular,
-		Fredoka_500Medium,
-		Fredoka_600SemiBold,
-		Fredoka_700Bold,
+		Montserrat_400Regular,
+		Montserrat_500Medium,
+		Montserrat_600SemiBold,
+		Montserrat_700Bold,
 	})
 
 	if (!fontsLoaded) {

@@ -1,24 +1,27 @@
 import { BodyScrollView } from '@/components/core'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import { Typography, useThemeColor } from 'heroui-native'
 
-export default function DocumentsTab() {
+export default function HomeTab() {
 	const themeColorForeground = useThemeColor('foreground')
 	return (
 		<>
 			<Stack.Title
 				large
 				largeStyle={{
-					fontFamily: 'Fredoka_600SemiBold',
+					fontFamily: 'Montserrat_600SemiBold',
 					color: themeColorForeground,
 				}}
 			>
-				Documents
+				Home
 			</Stack.Title>
+			<Stack.Toolbar placement="right">
+				<Stack.Toolbar.Button icon="person.fill" onPress={() => router.push('/account')} />
+			</Stack.Toolbar>
 
 			<BodyScrollView contentContainerClassName="gap-3 pt-4">
 				<Typography.Paragraph color="muted">
-					No document content is wired in this PoC shell.
+					No home content is wired in this PoC shell.
 				</Typography.Paragraph>
 			</BodyScrollView>
 		</>

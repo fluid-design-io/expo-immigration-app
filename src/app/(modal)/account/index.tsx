@@ -10,7 +10,7 @@ export default function AccountTab() {
 			<Stack.Title
 				large
 				largeStyle={{
-					fontFamily: 'Fredoka_600SemiBold',
+					fontFamily: 'Montserrat_600SemiBold',
 					color: themeColorForeground,
 				}}
 			>
