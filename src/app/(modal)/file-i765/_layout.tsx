@@ -11,7 +11,13 @@ export default function FileI765Layout() {
 	const layoutStyle = useLayoutStyle()
 	return (
 		<I765Provider>
-			<Stack screenOptions={{ ...layoutStyle, headerShown: true, headerTitle: 'I-765 Renewal' }} />
+			<Stack screenOptions={{ ...layoutStyle, headerShown: true }}>
+				<Stack.Screen name="index" options={{ title: 'Reason for filing' }} />
+				<Stack.Screen name="eligibility" options={{ title: 'Eligibility category' }} />
+				<Stack.Screen name="stem-details" options={{ title: 'STEM details' }} />
+				<Stack.Screen name="about-you" options={{ title: 'About you' }} />
+				<Stack.Screen name="review" options={{ title: 'Review' }} />
+			</Stack>
 		</I765Provider>
 	)
 }
