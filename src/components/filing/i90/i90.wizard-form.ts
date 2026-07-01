@@ -192,7 +192,11 @@ export function nextVisibleStepId(values: I90Values, current: I90StepId): I90Ste
 	// `current` is no longer visible (e.g. a branch step after the answers
 	// changed) — advance to the first visible step after its canonical position.
 	const canonicalIndex = I90_STEP_IDS.indexOf(current)
-	return visible.find((id) => I90_STEP_IDS.indexOf(id) > canonicalIndex)
+	const forward = visible.find((id) => I90_STEP_IDS.indexOf(id) > canonicalIndex)
+	// No later visible step — the flow now ends earlier (e.g. the I-751 guardrail
+	// replaced About you / Review), so go to the last visible step (the off-ramp)
+	// instead of no-op'ing and trapping the user.
+	return forward ?? visible[visible.length - 1]
 }
 
 /** Whether USCIS charges a filing fee for these answers (informational; ADR-0006). */

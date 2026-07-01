@@ -2,7 +2,7 @@ import { router } from 'expo-router'
 import { View } from 'react-native'
 import { InterviewStep } from '../../filing.interview-step'
 import { useI90Form } from '../i90.context'
-import { aboutYouSectionSchema } from '../i90.wizard-form'
+import { aboutYouSectionSchema, isI751Guardrail } from '../i90.wizard-form'
 import { goToNextStep } from './steps.nav'
 
 /**
@@ -19,7 +19,14 @@ export function AboutYouStep() {
 			onGroupSubmit={() => goToNextStep(form.state.values, 'aboutYou')}
 		>
 			{(group) => (
-				<form.Subscribe selector={(s) => aboutYouSectionSchema.safeParse(s.values.aboutYou).success}>
+				<form.Subscribe
+					selector={(s) =>
+						// If the answers now imply the I-751 guardrail this step is skipped,
+						// so don't trap the user here — let Continue advance to the off-ramp.
+						isI751Guardrail(s.values) ||
+						aboutYouSectionSchema.safeParse(s.values.aboutYou).success
+					}
+				>
 					{(canAdvance) => (
 						<InterviewStep
 							heading="Confirm your details"

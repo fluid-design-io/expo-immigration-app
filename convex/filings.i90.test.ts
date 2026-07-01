@@ -8,6 +8,7 @@ import {
 	i90FormOpts,
 	i90FullSchema,
 	isI751Guardrail,
+	nextVisibleStepId,
 	type I90Values,
 } from '../src/components/filing/i90/i90.wizard-form'
 import { api } from './_generated/api'
@@ -69,6 +70,19 @@ test('a conditional resident renewing hits the I-751 guardrail (terminal, no Rev
 	})
 	expect(isI751Guardrail(conditionalReplacement)).toBe(false)
 	expect(getVisibleSteps(conditionalReplacement)).toContain('review')
+})
+
+test('a stale step under the guardrail routes to the I-751 off-ramp (no trap)', () => {
+	const guardrail = values({
+		reasonForFiling: { reasonForFiling: 'renewal' },
+		residency: { residentType: 'conditional' },
+	})
+	// About you sits canonically AFTER the guardrail step, so a plain "next after
+	// my position" search finds nothing — Continue must still route to the
+	// terminal off-ramp rather than no-op.
+	expect(nextVisibleStepId(guardrail, 'aboutYou')).toBe('i751Guardrail')
+	// The replacement step (canonically before the guardrail) also routes there.
+	expect(nextVisibleStepId(guardrail, 'replacementReason')).toBe('i751Guardrail')
 })
 
 test('i90FullSchema requires a replacement reason and rejects the I-751 guardrail', () => {
