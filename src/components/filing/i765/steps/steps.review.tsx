@@ -3,6 +3,7 @@ import { Card, Typography } from 'heroui-native'
 import { View } from 'react-native'
 import { InterviewStep } from '../../filing.interview-step'
 import { useI765Form } from '../i765.context'
+import { I765PreviewButton } from '../i765.preview-button'
 import {
 	DEGREE_LEVEL_OPTIONS,
 	ELIGIBILITY_CATEGORY_OPTIONS,
@@ -40,7 +41,7 @@ export function ReviewStep() {
 					<InterviewStep
 						heading="Does this look right?"
 						helpTitle="Your I-765 answers"
-						help="We’ll save these answers so you can pick up where you left off. Preparing your filled Form I-765 comes in a later step."
+						help="Preview a free, watermarked draft of your answers on the real USCIS Form I-765, or finish to save and pick up later. The clean, print-ready copy comes later."
 						onBack={() => router.back()}
 						onNext={() => form.handleSubmit()}
 						canAdvance={canFinish && !isSubmitting}
@@ -75,6 +76,7 @@ export function ReviewStep() {
 								<ReviewRow label="Legal name" value={fullName} />
 								<ReviewRow label="A-Number" value={values.aboutYou.aNumber} />
 							</Card>
+							<I765PreviewButton />
 							{!canFinish ? (
 								<Typography.Paragraph color="muted" className="text-sm">
 									Some answers are still missing. Go back and complete each step to finish.

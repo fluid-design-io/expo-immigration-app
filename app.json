@@ -40,7 +40,9 @@
       "@react-native-vector-icons/material-design-icons",
       "@react-native-vector-icons/octicons",
       "@react-native-vector-icons/ionicons",
-      "@react-native-vector-icons/lucide"
+      "@react-native-vector-icons/lucide",
+      "expo-sharing",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,
