@@ -2,7 +2,7 @@ import { Button, Typography } from 'heroui-native'
 import { useState } from 'react'
 import { Alert, View } from 'react-native'
 import { useI765Form } from './i765.context'
-import { missingRequiredFields } from './i765.pdf'
+import { missingRequiredFields } from './i765.pdf.utils'
 import { I765_FORM_META, openI765Preview } from './i765.preview'
 
 /**

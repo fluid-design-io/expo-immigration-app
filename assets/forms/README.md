@@ -28,5 +28,5 @@ python3 scripts/normalize-uscis-form.py /tmp/i-765.source.pdf \
   assets/forms/i-765.pdf assets/forms/i-765.meta.json
 ```
 
-Then re-check the field map in `src/components/filing/i765/i765.pdf.ts` against
+Then re-check the field map in `src/components/filing/i765/i765.pdf.utils.ts` against
 the new edition (field names occasionally change) and run the render test.

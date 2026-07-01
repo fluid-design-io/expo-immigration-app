@@ -9,7 +9,7 @@ import {
 	I765_PDF_FIELDS,
 	I765_REASON_CHECKBOX,
 	missingRequiredFields,
-} from './i765.pdf'
+} from './i765.pdf.utils'
 import { i765FormOpts, type I765Values } from './i765.wizard-form'
 
 // The bundled, normalized USCIS template (resolved relative to this file so the
