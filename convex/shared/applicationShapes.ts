@@ -23,28 +23,28 @@ export const supportedSituations: readonly { formType: FormType; applicationKind
 export const isSupportedSituation = (formType: FormType, applicationKind: ApplicationKind) =>
 	supportedSituations.some((s) => s.formType === formType && s.applicationKind === applicationKind)
 
-const isoDate = z.iso.date()
+const isoDate = z.iso.date('Enter a valid date')
 
 export const addressShape = z.object({
-	street: z.string().min(1),
+	street: z.string().min(1, 'Street address is required'),
 	unit: z.string().optional(),
-	city: z.string().min(1),
-	state: z.string().min(2),
-	zipCode: z.string().min(5),
+	city: z.string().min(1, 'City is required'),
+	state: z.string().min(2, 'Use the 2-letter state code'),
+	zipCode: z.string().min(5, 'Enter a 5-digit ZIP code'),
 })
 
 // Person-facts: the projection that promotes draft → applicant profile when
 // the user reaches Review (ADR-0014). The interview never writes these to the
 // applicant row directly; promotion copies them, latest promotion wins.
 export const personFactsShape = z.object({
-	givenName: z.string().min(1),
+	givenName: z.string().min(1, 'First name is required'),
 	middleName: z.string().optional(),
-	familyName: z.string().min(1),
+	familyName: z.string().min(1, 'Family name is required'),
 	dateOfBirth: isoDate,
-	countryOfBirth: z.string().min(1),
+	countryOfBirth: z.string().min(1, 'Country of birth is required'),
 	aNumber: z
 		.string()
-		.regex(/^\d{7,9}$/, 'A-Number is 7 to 9 digits'),
+		.regex(/^\d{7,9}$/, 'An A-Number is 7 to 9 digits'),
 	mailingAddress: addressShape,
 	// Person-level per the glossary (identifies the legal basis the person
 	// qualifies under); only I-765 interviews collect it.

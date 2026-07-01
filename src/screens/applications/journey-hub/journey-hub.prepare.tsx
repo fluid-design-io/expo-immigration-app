@@ -1,10 +1,11 @@
 import { SectionHeading } from '@/components/core'
+import { useRouter } from 'expo-router'
 import { Button, Typography } from 'heroui-native'
 import { View } from 'react-native'
 import { useInterviewDone, useJourneyHub } from './journey-hub.context'
-import { comingSoon } from './journey-hub.utils'
 
 export function Prepare() {
+	const router = useRouter()
 	const { application } = useJourneyHub()
 	const interviewDone = useInterviewDone()
 	const isDraft = application.status === 'draft'
@@ -19,7 +20,7 @@ export function Prepare() {
 			{isDraft && (
 				<Button
 					variant={interviewDone ? 'secondary' : 'primary'}
-					onPress={() => comingSoon('Interview')}
+					onPress={() => router.push(`/interview/${application._id}`)}
 				>
 					<Button.Label>{interviewDone ? 'Review answers' : 'Continue'}</Button.Label>
 				</Button>
