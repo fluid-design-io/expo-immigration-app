@@ -4,7 +4,11 @@ import { revalidateLogic } from '@tanstack/react-form'
 import { router } from 'expo-router'
 import { createContext, useContext, type ReactNode } from 'react'
 import { Alert } from 'react-native'
-import { addApplicantFormOpts, addApplicantFullSchema, toApplicantDraft } from './add-applicant.wizard-form'
+import {
+	addApplicantFormOpts,
+	addApplicantFullSchema,
+	toApplicantDraft,
+} from './add-applicant.wizard-form'
 
 /**
  * Owns the single `useAppForm` for the add-applicant Interview (ADR-0013) plus
@@ -29,7 +33,7 @@ function useAddApplicantFormInstance() {
 					relationship: 'self',
 				})
 				await updateProfile({ applicantId, profile: draft.profile })
-				router.dismissAll()
+				router.dismissTo('/')
 			} catch (err) {
 				Alert.alert('Could not save', err instanceof Error ? err.message : 'Please try again.')
 			}

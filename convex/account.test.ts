@@ -12,6 +12,7 @@ const modules = import.meta.glob('./**/*.ts')
 const ISSUER = 'https://test.convex.site'
 
 test('migrateAnonymousOwner re-owns applicants and their documents onto the new account', async () => {
+	//@ts-ignore - process.env is not available in the test environment
 	process.env.CONVEX_SITE_URL = ISSUER
 	const t = convexTest(schema, modules)
 
@@ -48,6 +49,7 @@ test('migrateAnonymousOwner re-owns applicants and their documents onto the new 
 })
 
 test('migrateAnonymousOwner leaves another account’s data untouched', async () => {
+	//@ts-ignore - process.env is not available in the test environment
 	process.env.CONVEX_SITE_URL = ISSUER
 	const t = convexTest(schema, modules)
 

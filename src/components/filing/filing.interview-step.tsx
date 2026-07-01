@@ -1,8 +1,13 @@
+import { DialogBlurBackdrop } from '@/components/core'
 import { Stack } from 'expo-router'
-import { Avatar, Button, Popover, Separator, Typography } from 'heroui-native'
+import { Avatar, Button, Dialog, Separator, Typography } from 'heroui-native'
 import { useState, type ReactNode } from 'react'
 import { View } from 'react-native'
-import { KeyboardAwareScrollView, KeyboardStickyView } from 'react-native-keyboard-controller'
+import {
+	KeyboardAwareScrollView,
+	KeyboardController,
+	KeyboardStickyView,
+} from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export type InterviewStepProps = {
@@ -10,11 +15,11 @@ export type InterviewStepProps = {
 	heading: string
 	/**
 	 * Contextual help shown from the "?" trigger (ADR-0012 — help is available on
-	 * every step). A string renders as a popover description; a node renders as-is.
+	 * every step). A string renders as a dialog description; a node renders as-is.
 	 * When omitted, the "?" trigger is hidden.
 	 */
 	help?: ReactNode
-	/** Optional title above the help text in the popover. */
+	/** Optional title above the help text in the dialog. */
 	helpTitle?: string
 	/**
 	 * Optional avatar/mascot slot. Falls back to a neutral placeholder so every
@@ -42,7 +47,7 @@ export type InterviewStepProps = {
 
 /**
  * Reusable presentational shell for one Interview step (ADR-0012). It owns no
- * form state: a big heading, an optional "?" help popover, an avatar slot, the
+ * form state: a big heading, an optional "?" help dialog, an avatar slot, the
  * step body, and a sticky Back/Next footer that sits above the keyboard. Filing
  * wizards (I-90, I-765, …) compose their `withForm` step components around this.
  */
@@ -98,26 +103,32 @@ export function InterviewStep({
 	)
 }
 
-/** The "?" help affordance: a round trigger that opens a popover with the copy. */
+/** The "?" help affordance: a round trigger that opens a dialog with the copy. */
 function HelpTrigger({ title, content }: { title?: string; content: ReactNode }) {
 	const [isOpen, setIsOpen] = useState(false)
 	return (
-		<Popover isOpen={isOpen} onOpenChange={setIsOpen} presentation="bottom-sheet">
+		<Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
 			<Stack.Toolbar placement="right">
-				<Stack.Toolbar.Button icon="questionmark.circle" onPress={() => setIsOpen(true)} />
+				<Stack.Toolbar.Button
+					icon="questionmark.circle"
+					onPress={() => {
+						setIsOpen(true)
+						KeyboardController.dismiss()
+					}}
+				/>
 			</Stack.Toolbar>
-			<Popover.Portal>
-				<Popover.Overlay className="bg-black/15" />
-				<Popover.Content presentation="bottom-sheet">
-					<Popover.Arrow />
-					{title ? <Popover.Title>{title}</Popover.Title> : null}
+			<Dialog.Portal unstable_accessibilityContainerViewIsModal>
+				<DialogBlurBackdrop />
+				<Dialog.Content>
+					<Dialog.Close variant="ghost" className="absolute top-2 right-2" />
+					{title ? <Dialog.Title>{title}</Dialog.Title> : null}
 					{typeof content === 'string' ? (
-						<Popover.Description>{content}</Popover.Description>
+						<Dialog.Description>{content}</Dialog.Description>
 					) : (
 						content
 					)}
-				</Popover.Content>
-			</Popover.Portal>
-		</Popover>
+				</Dialog.Content>
+			</Dialog.Portal>
+		</Dialog>
 	)
 }

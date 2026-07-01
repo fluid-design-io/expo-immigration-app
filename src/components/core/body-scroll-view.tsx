@@ -1,5 +1,3 @@
-'use client'
-
 import { cn } from 'heroui-native'
 import { ScrollView, type ScrollViewProps } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'

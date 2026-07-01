@@ -40,7 +40,7 @@ function useI765FormInstance(initialValues: I765Values) {
 		onSubmit: async ({ value }) => {
 			try {
 				await saveDraft(toI765Draft(value))
-				router.dismissAll()
+				router.dismissTo('/')
 			} catch (err) {
 				Alert.alert('Could not save', err instanceof Error ? err.message : 'Please try again.')
 			}

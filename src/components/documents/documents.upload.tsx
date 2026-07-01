@@ -1,20 +1,22 @@
+import { useRequireAccount } from '@/components/account'
+import { featherIcon, type StyledIconComponent } from '@/components/styled-icon'
+import type { Id } from '@/lib/api'
 import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system/legacy'
-import { Button, Card, RadioGroup, Typography } from 'heroui-native'
+import { Button, Card, Radio, Typography } from 'heroui-native'
+import { RadioButtonGroup } from 'heroui-native-pro'
 import { useState } from 'react'
 import { Alert, View } from 'react-native'
-import { useRequireAccount } from '@/components/account'
-import type { Id } from '@/lib/api'
 import { useAddDocument, useGenerateUploadUrl } from './documents.data'
 import type { DocumentType } from './documents.types'
 
-const DOCUMENT_TYPES: { value: DocumentType; label: string }[] = [
-	{ value: 'passport', label: 'Passport' },
-	{ value: 'ead', label: 'EAD' },
-	{ value: 'greenCard', label: 'Green Card' },
-	{ value: 'i94', label: 'I-94' },
-	{ value: 'ssnCard', label: 'SSN Card' },
-	{ value: 'other', label: 'Other' },
+const DOCUMENT_TYPES: { value: DocumentType; label: string; Icon: StyledIconComponent }[] = [
+	{ value: 'passport', label: 'Passport', Icon: featherIcon('book-open') },
+	{ value: 'ead', label: 'EAD', Icon: featherIcon('briefcase') },
+	{ value: 'greenCard', label: 'Green Card', Icon: featherIcon('credit-card') },
+	{ value: 'i94', label: 'I-94', Icon: featherIcon('file-text') },
+	{ value: 'ssnCard', label: 'SSN Card', Icon: featherIcon('hash') },
+	{ value: 'other', label: 'Other', Icon: featherIcon('paperclip') },
 ]
 
 /**
@@ -88,17 +90,43 @@ export function DocumentUpload({ applicantId }: { applicantId: Id<'applicants'> 
 
 			<View className="gap-2">
 				<Typography.Paragraph className="text-sm font-medium">Document type</Typography.Paragraph>
-				<RadioGroup
+				<RadioButtonGroup
 					value={type}
 					onValueChange={(value) => setType(value as DocumentType)}
 					isDisabled={uploading}
+					variant="secondary"
+					className="gap-2"
 				>
 					{DOCUMENT_TYPES.map((option) => (
-						<RadioGroup.Item key={option.value} value={option.value}>
-							{option.label}
-						</RadioGroup.Item>
+						<RadioButtonGroup.Item
+							key={option.value}
+							value={option.value}
+							className="flex-row items-center gap-3 p-3"
+						>
+							{({ isSelected }) => (
+								<>
+									<View
+										className={[
+											'h-9 w-9 items-center justify-center rounded-full border',
+											isSelected ? 'border-accent bg-accent' : 'border-border bg-surface',
+										].join(' ')}
+									>
+										<option.Icon
+											size={18}
+											className={isSelected ? 'text-accent-foreground' : 'text-muted'}
+										/>
+									</View>
+									<RadioButtonGroup.ItemContent>
+										<Typography.Paragraph className="font-medium">
+											{option.label}
+										</Typography.Paragraph>
+									</RadioButtonGroup.ItemContent>
+									<Radio />
+								</>
+							)}
+						</RadioButtonGroup.Item>
 					))}
-				</RadioGroup>
+				</RadioButtonGroup>
 			</View>
 
 			<Button isDisabled={uploading} onPress={handleUpload}>

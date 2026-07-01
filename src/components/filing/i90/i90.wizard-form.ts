@@ -1,5 +1,6 @@
 import { formOptions } from '@tanstack/react-form'
 import { z } from 'zod'
+import type { RadioGroupFieldOption as FormOption } from '@/components/form'
 import { applicantProfileShape, profileFormSchema } from '../../../../convex/lib/profileShape'
 
 /**
@@ -15,28 +16,66 @@ import { applicantProfileShape, profileFormSchema } from '../../../../convex/lib
  * off-ramp instead of a filing.
  */
 
-type Option = { value: string; label: string }
-
 /** Step 1 — renewal vs replacement (Form I-90 Part 2). */
-export const REASON_FOR_FILING_OPTIONS: Option[] = [
-	{ value: 'renewal', label: 'Renew my card (expiring or expired)' },
-	{ value: 'replacement', label: 'Replace my card (lost, stolen, damaged, or changed)' },
+export const REASON_FOR_FILING_OPTIONS: FormOption[] = [
+	{
+		value: 'renewal',
+		label: 'Renew my card (expiring or expired)',
+		description: 'Use this when your 10-year green card is expiring or already expired.',
+	},
+	{
+		value: 'replacement',
+		label: 'Replace my card (lost, stolen, damaged, or changed)',
+		description: 'Use this when you need a new card because something happened to the old one.',
+	},
 ]
 
 /** Step 2 — the resident type that drives the I-751 guardrail. */
-export const RESIDENT_TYPE_OPTIONS: Option[] = [
-	{ value: 'tenYear', label: 'Permanent resident (10-year card)' },
-	{ value: 'conditional', label: 'Conditional resident (2-year card)' },
+export const RESIDENT_TYPE_OPTIONS: FormOption[] = [
+	{
+		value: 'tenYear',
+		label: 'Permanent resident (10-year card)',
+		description: 'Most permanent residents renew or replace this card with Form I-90.',
+	},
+	{
+		value: 'conditional',
+		label: 'Conditional resident (2-year card)',
+		description: 'A 2-year card usually requires Form I-751 to remove conditions before renewal.',
+	},
 ]
 
 /** Step 3 (branch) — why a replacement is needed. Fee is $0 for the last two. */
-export const REPLACEMENT_REASON_OPTIONS: Option[] = [
-	{ value: 'lost', label: 'Lost, stolen, or destroyed' },
-	{ value: 'damaged', label: 'Mutilated or damaged' },
-	{ value: 'nameChange', label: 'My name or biographic info changed' },
-	{ value: 'incorrectData', label: 'Incorrect data (my error)' },
-	{ value: 'neverReceived', label: 'Card was issued but I never received it' },
-	{ value: 'uscisError', label: 'Card has incorrect data due to a USCIS error' },
+export const REPLACEMENT_REASON_OPTIONS: FormOption[] = [
+	{
+		value: 'lost',
+		label: 'Lost, stolen, or destroyed',
+		description: 'Your card is gone and you need a new physical card.',
+	},
+	{
+		value: 'damaged',
+		label: 'Mutilated or damaged',
+		description: 'Your card exists but cannot be used reliably.',
+	},
+	{
+		value: 'nameChange',
+		label: 'My name or biographic info changed',
+		description: 'Your legal name or other biographic information changed.',
+	},
+	{
+		value: 'incorrectData',
+		label: 'Incorrect data (my error)',
+		description: 'The card has wrong information because of what was submitted.',
+	},
+	{
+		value: 'neverReceived',
+		label: 'Card was issued but I never received it',
+		description: 'USCIS issued the card, but it never arrived.',
+	},
+	{
+		value: 'uscisError',
+		label: 'Card has incorrect data due to a USCIS error',
+		description: 'USCIS made the mistake; this can be fee-exempt.',
+	},
 ]
 
 /** The resident type that triggers the I-751 guardrail on a renewal. */
@@ -268,6 +307,6 @@ export function toI90Draft(values: I90Values): I90Draft {
 }
 
 /** Human label for a stored option value (e.g. for the Review summary). */
-export function optionLabel(options: readonly Option[], value: string): string {
+export function optionLabel(options: readonly FormOption[], value: string): string {
 	return options.find((option) => option.value === value)?.label ?? value
 }

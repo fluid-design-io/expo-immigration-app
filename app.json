@@ -42,7 +42,8 @@
       "@react-native-vector-icons/ionicons",
       "@react-native-vector-icons/lucide",
       "expo-sharing",
-      "expo-asset"
+      "expo-asset",
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true,

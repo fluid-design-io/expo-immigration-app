@@ -33,7 +33,7 @@ const AppContent = () => {
 	return (
 		<Stack screenOptions={layoutStyle}>
 			<Stack.Protected guard={isAuthenticated}>
-				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+				<Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Home' }} />
 				<Stack.Screen name="applicant/[id]" options={{ headerShown: true, title: 'Profile' }} />
 				{/* Root-level modal slots present above the tab bar. */}
 				<Stack.Screen
@@ -53,8 +53,21 @@ const AppContent = () => {
 				 * anonymous session makes `useConvexAuth().isAuthenticated` true, so
 				 * the authenticated group (tabs) takes over with no manual nav.
 				 */}
-				<Stack.Screen name="welcome" options={{ headerShown: false }} />
-				<Stack.Screen name="sign-in" options={{ headerShown: true, title: 'Sign in' }} />
+				<Stack.Screen
+					name="welcome"
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="sign-in"
+					options={{
+						headerShown: false,
+						title: 'Sign in',
+						presentation: 'formSheet',
+						sheetAllowedDetents: 'fitToContents',
+					}}
+				/>
 			</Stack.Protected>
 		</Stack>
 	)

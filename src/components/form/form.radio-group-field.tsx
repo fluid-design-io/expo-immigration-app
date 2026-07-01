@@ -3,14 +3,16 @@ import {
 	FieldError,
 	TextField as HeroTextField,
 	Label,
-	RadioGroup,
+	Radio,
 } from 'heroui-native'
+import { RadioButtonGroup } from 'heroui-native-pro'
 import { useFieldContext } from './form.context'
 import { fieldErrorText } from './form.utils'
 
 export type RadioGroupFieldOption = {
 	value: string
 	label: string
+	description?: string
 }
 
 export type RadioGroupFieldProps = {
@@ -36,9 +38,9 @@ export default function RadioGroupField({
 	return (
 		<HeroTextField isInvalid={isInvalid} isRequired={isRequired} isDisabled={isDisabled}>
 			<Label>{label}</Label>
-			<RadioGroup
+			<RadioButtonGroup
 				value={field.state.value}
-				// RadioGroup has no blur event, so mark the field touched on change to
+				// RadioButtonGroup has no blur event, so mark the field touched on change to
 				// surface validation just like the text fields do on blur.
 				onValueChange={(value) => {
 					field.handleChange(value)
@@ -46,13 +48,23 @@ export default function RadioGroupField({
 				}}
 				isInvalid={isInvalid}
 				isDisabled={isDisabled}
+				variant="secondary"
+				className="gap-2"
 			>
 				{options.map((option) => (
-					<RadioGroup.Item key={option.value} value={option.value}>
-						{option.label}
-					</RadioGroup.Item>
+					<RadioButtonGroup.Item
+						key={option.value}
+						value={option.value}
+						className="flex-row items-center gap-3 p-3"
+					>
+						<Radio />
+						<RadioButtonGroup.ItemContent className="gap-1">
+							<Label>{option.label}</Label>
+							{option.description ? <Description>{option.description}</Description> : null}
+						</RadioButtonGroup.ItemContent>
+					</RadioButtonGroup.Item>
 				))}
-			</RadioGroup>
+			</RadioButtonGroup>
 			{description ? <Description>{description}</Description> : null}
 			{isInvalid && error ? <FieldError isInvalid>{error}</FieldError> : null}
 		</HeroTextField>

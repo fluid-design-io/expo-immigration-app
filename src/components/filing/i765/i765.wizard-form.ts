@@ -1,5 +1,6 @@
 import { formOptions } from '@tanstack/react-form'
 import { z } from 'zod'
+import type { RadioGroupFieldOption as FormOption } from '@/components/form'
 import { applicantProfileShape, profileFormSchema } from '../../../../convex/lib/profileShape'
 
 /**
@@ -15,17 +16,27 @@ import { applicantProfileShape, profileFormSchema } from '../../../../convex/lib
  * category skips that step entirely.
  */
 
-type Option = { value: string; label: string }
-
 /** Step 1 — why the I-765 is being filed. */
-export const REASON_FOR_FILING_OPTIONS: Option[] = [
-	{ value: 'initial', label: 'Initial permission to accept employment' },
-	{ value: 'renewal', label: 'Renewal of permission to accept employment' },
-	{ value: 'replacement', label: 'Replacement of a lost, stolen, or damaged card' },
+export const REASON_FOR_FILING_OPTIONS: FormOption[] = [
+	{
+		value: 'initial',
+		label: 'Initial permission to accept employment',
+		description: 'Choose this if you are applying for work authorization for the first time.',
+	},
+	{
+		value: 'renewal',
+		label: 'Renewal of permission to accept employment',
+		description: 'Choose this if your current work authorization is expiring and you remain eligible.',
+	},
+	{
+		value: 'replacement',
+		label: 'Replacement of a lost, stolen, or damaged card',
+		description: 'Choose this if your valid EAD needs to be replaced.',
+	},
 ]
 
 /** Step 2 — the eligibility category that classifies the request (Form I-765 item 27). */
-export const ELIGIBILITY_CATEGORY_OPTIONS: Option[] = [
+export const ELIGIBILITY_CATEGORY_OPTIONS: FormOption[] = [
 	{ value: 'c08', label: '(c)(8) — Pending asylum application' },
 	{ value: 'c09', label: '(c)(9) — Pending adjustment of status (Form I-485)' },
 	{ value: 'c3c', label: '(c)(3)(C) — STEM OPT extension (F-1 student)' },
@@ -33,7 +44,7 @@ export const ELIGIBILITY_CATEGORY_OPTIONS: Option[] = [
 ]
 
 /** Step 3 (branch) — degree level for the STEM OPT extension. */
-export const DEGREE_LEVEL_OPTIONS: Option[] = [
+export const DEGREE_LEVEL_OPTIONS: FormOption[] = [
 	{ value: 'bachelors', label: "Bachelor's degree" },
 	{ value: 'masters', label: "Master's degree" },
 	{ value: 'doctorate', label: 'Doctorate' },
@@ -254,6 +265,6 @@ export function toI765Draft(values: I765Values): I765Draft {
 }
 
 /** Human label for a stored option value (e.g. for the Review summary). */
-export function optionLabel(options: readonly Option[], value: string): string {
+export function optionLabel(options: readonly FormOption[], value: string): string {
 	return options.find((option) => option.value === value)?.label ?? value
 }

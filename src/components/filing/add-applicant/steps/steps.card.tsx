@@ -1,12 +1,21 @@
 import { router } from 'expo-router'
 import { View } from 'react-native'
+import type { RadioGroupFieldOption } from '@/components/form'
 import { InterviewStep } from '../../filing.interview-step'
 import { useAddApplicantForm } from '../add-applicant.context'
 import { cardSectionSchema } from '../add-applicant.wizard-form'
 
-const CARD_OPTIONS = [
-	{ value: 'ead', label: 'Work permit (EAD)' },
-	{ value: 'greenCard', label: 'Green card' },
+const CARD_OPTIONS: RadioGroupFieldOption[] = [
+	{
+		value: 'ead',
+		label: 'Work permit (EAD)',
+		description: 'Use this for an employment authorization document.',
+	},
+	{
+		value: 'greenCard',
+		label: 'Green card',
+		description: 'Use this for a permanent resident card.',
+	},
 ]
 
 /**

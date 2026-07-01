@@ -1,4 +1,5 @@
 import { authClient } from '@/lib/auth-client'
+import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { Button, Typography } from 'heroui-native'
 import { useState } from 'react'
@@ -32,8 +33,19 @@ export default function WelcomeScreen() {
 	}
 
 	return (
-		<View className="flex-1 justify-between bg-background px-6 pb-12 pt-24">
-			<View className="gap-4">
+		<>
+			<View className="relative bg-accent/15 pt-safe items-center justify-center">
+				<Image
+					source={require('@/assets/images/remi-mascots/waving.png')}
+					style={{
+						aspectRatio: 1,
+						width: '100%',
+						maxWidth: 220,
+						resizeMode: 'contain',
+					}}
+				/>
+			</View>
+			<View className="gap-4 pt-5 flex-1 px-5">
 				<Typography.Heading className="text-4xl font-bold">
 					Renew with confidence
 				</Typography.Heading>
@@ -43,7 +55,7 @@ export default function WelcomeScreen() {
 				</Typography.Paragraph>
 			</View>
 
-			<View className="gap-3">
+			<View className="gap-3 pb-safe-offset-5 px-5">
 				<Button isDisabled={pending} onPress={handleStartFiling}>
 					<Button.Label>{pending ? 'Starting…' : 'Start filing'}</Button.Label>
 				</Button>
@@ -52,6 +64,6 @@ export default function WelcomeScreen() {
 					<Button.Label>Sign in</Button.Label>
 				</Button>
 			</View>
-		</View>
+		</>
 	)
 }

@@ -1,9 +1,9 @@
+import { useAppForm } from '@/components/form'
 import { revalidateLogic } from '@tanstack/react-form'
 import { router } from 'expo-router'
 import { Spinner } from 'heroui-native'
 import { createContext, useContext, type ReactNode } from 'react'
 import { Alert, View } from 'react-native'
-import { useAppForm } from '@/components/form'
 import { useI90Draft, useSaveI90Draft, useSelfApplicantProfile } from './i90.data'
 import { buildI90InitialValues, i90FullSchema, toI90Draft, type I90Values } from './i90.wizard-form'
 
@@ -33,7 +33,7 @@ function useI90FormInstance(initialValues: I90Values) {
 		onSubmit: async ({ value }) => {
 			try {
 				await saveDraft(toI90Draft(value))
-				router.dismissAll()
+				router.dismissTo('/')
 			} catch (err) {
 				Alert.alert('Could not save', err instanceof Error ? err.message : 'Please try again.')
 			}

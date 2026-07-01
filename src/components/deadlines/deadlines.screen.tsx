@@ -25,8 +25,8 @@ function DeadlineHero({ deadline }: { deadline: ApplicantDeadline }) {
 			<Typography.Paragraph>File by {formatDate(fileByDate)}</Typography.Paragraph>
 			{showAutoExtensionWarning ? (
 				<Typography.Paragraph color="muted" className="mt-1 text-sm">
-					⚠︎ No automatic extension for EAD renewals filed on or after Oct 30, 2025 — file early
-					to avoid a gap in your work authorization.
+					⚠︎ No automatic extension for EAD renewals filed on or after Oct 30, 2025 — file early to
+					avoid a gap in your work authorization.
 				</Typography.Paragraph>
 			) : null}
 		</Card>
@@ -47,20 +47,18 @@ export function DeadlinesScreen() {
 				Deadlines
 			</Stack.Title>
 			<BodyScrollView>
-				<View className="gap-4 p-5">
-					{deadlines === undefined ? (
-						<View className="items-center py-12">
-							<Spinner />
-						</View>
-					) : deadlines.length === 0 ? (
-						<Typography.Paragraph color="muted">
-							Add an applicant&rsquo;s card type and expiry in the interview to see your renewal
-							deadline here.
-						</Typography.Paragraph>
-					) : (
-						deadlines.map((d) => <DeadlineHero key={d.applicantId} deadline={d} />)
-					)}
-				</View>
+				{deadlines === undefined ? (
+					<View className="items-center py-12">
+						<Spinner />
+					</View>
+				) : deadlines.length === 0 ? (
+					<Typography.Paragraph color="muted">
+						Add an applicant&rsquo;s card type and expiry in the interview to see your renewal
+						deadline here.
+					</Typography.Paragraph>
+				) : (
+					deadlines.map((d) => <DeadlineHero key={d.applicantId} deadline={d} />)
+				)}
 			</BodyScrollView>
 		</>
 	)

@@ -17,12 +17,12 @@ export function I751GuardrailStep() {
 			helpTitle="Conditional residents"
 			help="A 2-year card is a conditional green card. To keep your permanent resident status you file Form I-751 to remove the conditions — Form I-90 can’t renew a conditional card. Information only, not legal advice."
 			onBack={() => router.back()}
-			onNext={() => router.dismissAll()}
+			onNext={() => router.dismissTo('/')}
 			nextLabel="Close"
 		>
 			<Card className="gap-3 p-5">
 				<Typography.Paragraph className="font-semibold">
-					Why we can’t continue with Form I-90
+					Why we can't continue with Form I-90
 				</Typography.Paragraph>
 				<Typography.Paragraph color="muted" className="text-sm">
 					You told us you have a 2-year (conditional) green card and want to renew it. Conditional
