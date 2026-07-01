@@ -1,12 +1,9 @@
 import { formatIsoDate, requirementLabel, situationLabel } from '@/lib/application-labels'
-import { styledIcon } from '@/components/styled-icon'
+import { StyledLucideIcon } from '@/components/styled-icon'
 import { useRouter } from 'expo-router'
 import { Typography } from 'heroui-native'
 import { Pressable, View } from 'react-native'
 import type { AttentionItem } from './home.data'
-
-const ExpiringIcon = styledIcon({ family: 'lucide', name: 'triangle-alert' })
-const NeededIcon = styledIcon({ family: 'lucide', name: 'file-plus' })
 
 export function AttentionRow(props: { item: AttentionItem }) {
 	const router = useRouter()
@@ -18,7 +15,7 @@ export function AttentionRow(props: { item: AttentionItem }) {
 				onPress={() => router.push('/documents')}
 				className="flex-row items-center gap-3 py-2"
 			>
-				<ExpiringIcon size={20} className="text-danger" />
+				<StyledLucideIcon name="triangle-alert" size={20} className="text-danger" />
 				<View className="flex-1">
 					<Typography.Paragraph className="font-medium">
 						{item.label ?? item.documentType} expires {formatIsoDate(item.expiryDate)}
@@ -38,7 +35,7 @@ export function AttentionRow(props: { item: AttentionItem }) {
 			onPress={() => router.push(`/application/${item.applicationId}`)}
 			className="flex-row items-center gap-3 py-2"
 		>
-			<NeededIcon size={20} className="text-warning" />
+			<StyledLucideIcon name="file-plus" size={20} className="text-warning" />
 			<View className="flex-1">
 				<Typography.Paragraph className="font-medium">
 					{requirementLabel(item.requirementKey)} needed

@@ -56,7 +56,7 @@ export function HomeScreen() {
 				<ScrollView
 					horizontal
 					showsHorizontalScrollIndicator={false}
-					contentContainerClassName="gap-3 px-5"
+					contentContainerClassName="gap-3 px-5 pb-5"
 				>
 					{dashboard.activeApplications.map((application) => (
 						<ApplicationCard key={application._id} application={application} />
