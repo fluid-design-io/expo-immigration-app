@@ -31,10 +31,9 @@ const AppContent = () => {
 	}
 
 	return (
-		<Stack screenOptions={layoutStyle}>
+			<Stack screenOptions={layoutStyle}>
 			<Stack.Protected guard={isAuthenticated}>
 				<Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Home' }} />
-				<Stack.Screen name="applicant/[id]" options={{ headerShown: true, title: 'Profile' }} />
 				{/* Root-level modal slots present above the tab bar. */}
 				<Stack.Screen
 					name="(modal)"

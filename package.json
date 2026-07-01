@@ -13,7 +13,7 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "test:once": "vitest run"
+    "test:once": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@better-auth/expo": "~1.6.22",
